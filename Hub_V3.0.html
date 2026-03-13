@@ -1,0 +1,1226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lafayette Brand Hub // Master Agency System</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,600;0,800;0,900;1,400&family=Bebas+Neue&family=Montserrat:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&family=Mr+Dafoe&family=Rock+Salt&family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@500&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+  <style>
+    :root {
+      /* Official City Colors */
+      --laf-blue: #00539b; --laf-green: #8dc63f; --laf-purple: #565193; 
+      --ink: #00539b; --paper: #FFFFFF; --slate: #F1F5F9;
+    }
+
+    * { box-sizing: border-box; scroll-behavior: smooth; }
+    body { margin: 0; display: flex; font-family: 'Libre Franklin', sans-serif; background: var(--paper); color: var(--ink); }
+
+    /* NY Agency Sidebar */
+    aside { 
+      width: 300px; background: white; border-right: 1px solid #999; 
+      padding: 50px 30px; position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100;
+    }
+    .brand-id { font-weight: 900; font-size: 1.8rem; letter-spacing: -1px; margin-bottom: 40px; line-height: 0.9; }
+    .nav-label {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem; color: #8DC63F;
+      text-transform: uppercase; letter-spacing: 3px; margin: 25px 0 10px; display: block;
+    }
+    .nav-link { display: block; padding: 4px 0; text-decoration: none; color: var(--ink); font-size: 0.75rem; opacity: 0.6; transition: 0.3s; }
+    .nav-link:hover { opacity: 1; color: var(--laf-blue); transform: translateX(5px); }
+
+    main { flex: 1; position: relative; width: calc(100% - 300px); }
+    section { padding: 80px 10%; border-bottom: 1px solid #eee; position: relative; }
+    p { text-align: justify; font-size: 0.95rem; line-height: 1.6; }
+
+    /* Agency Typography */
+    .meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--laf-purple); text-transform: uppercase; letter-spacing: 4px; margin-bottom: 20px; display: block; }
+    h2 { font-size: 4rem; font-weight: 900; line-height: 0.8; letter-spacing: -3px; text-transform: uppercase; margin: 0 0 30px; color: #00539B; text-align: left; }
+    
+    /* Layout Components */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 30px; }
+    .data-block { border-top: 1px solid #8dc63f; padding-top: 20px; }
+    .data-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: #999; margin-bottom: 12px; display: block; }
+    
+    /* TOOL: Advanced Palette Studio */
+    .palette-shutter { display: flex; height: 350px; background: #000; gap: 1px; border: 1px solid #000; margin: 20px 0 40px; }
+    .swatch { flex: 1; padding: 25px; display: flex; flex-direction: column; justify-content: space-between; transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; position: relative; overflow: hidden; }
+    .swatch:hover { flex: 3; }
+    .swatch-meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; font-weight: 600; margin-top: auto; }
+    .swatch-meta:hover { opacity: 0.7; }
+    .swatch-controls { display: flex; justify-content: space-between; align-items: flex-start; opacity: 0; transform: translateY(-10px); transition: 0.3s; }
+    .swatch:hover .swatch-controls { opacity: 1; transform: translateY(0); }
+    .lock-btn { border: 1px solid rgba(255,255,255,0.4); background: rgba(0,0,0,0.1); color: inherit; padding: 5px 8px; font-family: 'IBM Plex Mono', monospace; font-size: 0.5rem; cursor: pointer; text-transform: uppercase; backdrop-filter: blur(2px); }
+    .lock-btn:hover { background: rgba(255,255,255,0.2); }
+    .lock-btn.active { background: white; color: black; border-color: white; font-weight: bold; }
+    .picker-wrapper { width: 26px; height: 26px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); overflow: hidden; position: relative; cursor: pointer; }
+    .picker-wrapper input { position: absolute; top: -10px; left: -10px; width: 45px; height: 45px; cursor: pointer; border: none; background: none; padding: 0; }
+    .palette-toolbar { display: flex; align-items: center; gap: 15px; background: #F1F5F9; padding: 12px; border: 1px solid #ddd; }
+    .tool-select { background: transparent; border: 1px solid #999; padding: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--ink); min-width: 200px; cursor: pointer; }
+
+    /* Toast Notification */
+    #toast { position: fixed; top: 40px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #000; color: #fff; padding: 10px 25px; border-radius: 50px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 600; transition: 0.4s; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* TOOL: Advanced Sandbox */
+    .lab-layout { display: grid; grid-template-columns: 280px 1fr; gap: 50px; background: var(--ink); color: white; padding: 50px; }
+    .preview-stage { background: white; color: var(--ink); padding: 80px 50px; text-align: center; border: 1px solid #333; min-height: 400px; display: flex; flex-direction: column; justify-content: center; }
+    .lab-controls select, .lab-controls input[type="color"], .lab-controls input[type="text"], .lab-controls input[type="range"] { width: 100%; padding: 10px; background: #F1F5F9; border: 1px solid #333; color: #00539B; font-family: 'Libre Franklin', sans-serif; margin-bottom: 15px; font-size: 0.85rem; }
+
+    /* TOOL: QR Engine UI */
+    .qr-interface { display: grid; grid-template-columns: 280px 1fr; gap: 50px; background: var(--slate); padding: 50px; border: 1px solid #ddd; }
+    .qr-stage { position: relative; background: white; border: 1px solid #333; display: flex; align-items: center; justify-content: center; padding: 40px; min-height: 300px; }
+    .qr-input { width: 100%; padding: 10px; border: 1px solid #333; background: #fff; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; margin-bottom: 15px; }
+
+    /* TOOL: Logo Matrix */
+    .logo-matrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #eee; border: 1px solid #eee; margin-top: 30px; }
+    .logo-item { background: white; padding: 50px 30px; text-align: center; }
+    .logo-placeholder { border: 1px solid #ddd; height: 90px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem; color: #ccc; margin-bottom: 15px; overflow: hidden; padding: 10px; }
+    .logo-placeholder img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+    /* Buttons & Links */
+    .btn-agency { background: var(--ink); color: white; border: none; padding: 15px 25px; font-weight: 900; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block; }
+    .btn-agency:hover { background: var(--laf-blue); transform: translateY(-3px); }
+    .btn-outline { background: transparent; border: 1px solid #000; color: #000; }
+
+    .asset-card { background: white; border: 1px solid #ddd; padding: 25px; display: flex; flex-direction: column; gap: 10px; transition: 0.3s; }
+    .asset-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+    .asset-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--laf-blue); }
+    .asset-preview { font-size: 1.8rem; color: #333; margin: 10px 0 15px; line-height: 1; }
+    .btn-download { text-decoration: none; background: #F1F5F9; color: #333; padding: 8px; text-align: center; font-size: 0.65rem; text-transform: uppercase; font-weight: 700; border: 1px solid #ddd; transition: 0.2s; }
+    .btn-download:hover { background: var(--laf-green); color: white; border-color: var(--laf-green); }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 25px; }
+    .alert-box { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; padding: 12px; margin-bottom: 15px; border-radius: 4px; font-family: 'Libre Franklin', sans-serif; font-size: 0.8rem; line-height: 1.4; }
+    .alert-box strong { font-weight: 800; text-transform: uppercase; }
+
+    /* ========================================= */
+    /* PRO SUITE STYLES - SIDEBAR UPDATE         */
+    /* ========================================= */
+    
+    #pro-suite {
+      background: white;
+      color: #00539b;
+      padding: 0;
+      height: 100vh;
+      min-height: 800px;
+      overflow: hidden;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .ps-wrapper {
+      display: flex; height: 100%; width: 100%; font-family: 'Inter', sans-serif;
+      --ps-panel: #F8FAFC; --ps-border: #E2E8F0; --ps-text: #0B1220;
+      --ps-input-border: #CBD5E1; --ps-accent: #00539b; --ps-alert-red: #D32F2F;
+    }
+
+    /* Internal Sidebar */
+    .ps-sidebar { width: 330px; background: var(--ps-panel); border-right: 1px solid #ddd; display: flex; flex-direction: column; z-index: 20; height: 100%; }
+    .ps-header { padding: 15px 20px; border-bottom: 1px solid #ddd; background: white; }
+    .ps-header h1 { margin: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; color: var(--laf-blue); display: flex; align-items: center; gap: 8px; }
+    .ps-badge { font-size: 9px; background: #8dc63f; color: black; padding: 3px 6px; border-radius: 4px; font-weight: 800; }
+    .ps-scroll { flex: 1; overflow-y: auto; padding: 25px; }
+    
+    .ps-group { margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px; }
+    .ps-group:last-child { border: none; padding-bottom: 0; }
+    .ps-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748B; margin-bottom: 8px; letter-spacing: 1px; display: block; }
+    
+    /* Inputs */
+    .ps-wrapper input, .ps-wrapper textarea, .ps-wrapper select {
+      width: 100%; background: white; border: 1px solid var(--ps-input-border); color: #334155; padding: 8px; border-radius: 4px; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-size: 11px; transition: 0.2s;
+    }
+    .ps-wrapper input:focus, .ps-wrapper textarea:focus, .ps-wrapper select:focus { border-color: #00539b; outline: none; box-shadow: 0 0 0 2px rgba(0,83,155,0.1); }
+    .ps-wrapper textarea { resize: vertical; min-height: 50px; line-height: 1.4; }
+    .ps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    
+    /* Template Buttons */
+    .tpl-btn { background: white; border: 1px solid var(--ps-input-border); color: #64748B; padding: 10px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; text-align: left; transition: 0.2s; display: flex; flex-direction: column; gap: 2px; }
+    .tpl-btn span { font-size: 8px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.5px; }
+    .tpl-btn:hover { background: #F1F5F9; color: var(--laf-blue); border-color: #94A3B8; }
+    .tpl-btn.active { background: #EFF6FF; border-color: #00539b; color: #00539b; box-shadow: 0 2px 4px rgba(0,83,155,0.1); }
+    .tpl-btn.active-alert { background: #FEF2F2; border-color: #EF4444; color: #EF4444; }
+
+    /* Swatches & Buttons */
+    .ps-swatches { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .ps-swatch { width: 22px; height: 22px; border-radius: 4px; cursor: pointer; border: 2px solid #ddd; transition: 0.2s; flex-shrink: 0; }
+    .ps-swatch:hover { transform: translateY(-2px); }
+    .ps-swatch.selected { border-color: #000; box-shadow: 0 0 0 1px #000; }
+    
+    .ps-btn { background: white; border: 1px solid #94A3B8; color: #334155; padding: 8px; border-radius: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; cursor: pointer; width: 100%; transition: 0.2s; }
+    .ps-btn:hover { background: #F8FAFC; border-color: #64748B; color: #0F172A; }
+    .ps-btn-primary { background: #00539b; color: white; border: none; font-size: 11px; padding: 14px; letter-spacing: 1px; width: 100%; margin-top: 10px; font-weight: 800; text-transform: uppercase; cursor: pointer; border-radius: 4px; }
+    .ps-btn-primary:hover { background: #003d73; transform: translateY(-1px); }
+
+    /* The Canvas Stage */
+    .ps-stage { flex: 1; background: #e5e5e5; display: flex; align-items: center; justify-content: center; background-image: linear-gradient(#ccc 1px, transparent 1px), linear-gradient(90deg, #ccc 1px, transparent 1px); background-size: 40px 40px; padding: 40px; position: relative; overflow: hidden; }
+    .ps-stage-info { position: absolute; top: 20px; right: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #666; background: rgba(255,255,255,0.8); padding: 4px 8px; border-radius: 4px; }
+
+    /* RENDER TARGET */
+    #artboard {
+      width: 1080px; height: 1080px; background: white; box-shadow: 0 20px 50px rgba(0,0,0,0.15); position: relative; overflow: hidden; transform-origin: center;
+      --font-head: 'Libre Franklin', sans-serif; --font-body: 'Libre Franklin', sans-serif; --accent: #00539b;
+    }
+
+    /* LAYERS */
+    .layer { position: absolute; inset: 0; pointer-events: none; }
+    .bg-img { z-index: 1; background-size: cover; background-position: center; background-color: #eee; transition: 0.3s; }
+    .overlay { z-index: 5; transition: 0.3s; }
+    .tint-layer { z-index: 4; background: transparent; transition:0.3s; }
+    .content { z-index: 10; padding: 80px; display: flex; flex-direction: column; }
+
+    .hazard-bg {
+      position: absolute; inset: 0; z-index: 2; opacity: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40' fill='%23000000' fill-opacity='0.15'/%3E%3C/svg%3E");
+    }
+
+    /* TYPOGRAPHY */
+    .txt-eye { font-family: var(--font-head); font-size: 22px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; }
+    .txt-head { font-family: var(--font-head); font-size: 84px; font-weight: 900; line-height: 1.05; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 25px; }
+    .txt-body { font-family: var(--font-body); font-size: 26px; font-weight: 300; line-height: 1.5; max-width: 850px; text-align: left; }
+    .txt-script { font-family: 'Mr Dafoe', cursive; font-size: 70px; color: var(--accent); line-height: 1; margin-bottom: 10px; }
+    .txt-stat { font-family: 'Bebas Neue', sans-serif; font-size: 320px; font-weight: 900; line-height: 0.8; letter-spacing: -3px; color: var(--accent); }
+
+    /* LOGOS */
+    .ps-logo { position: absolute; top: 50px; right: 50px; z-index: 20; transition: 0.2s; width: 140px; }
+    .ps-logo-alt { position: absolute; bottom: 50px; left: 50px; z-index: 20; width: 100px; display: none; }
+    
+    /* ICONS */
+    .alert-icon-wrap { display: none; align-items: center; justify-content: flex-start; gap: 20px; margin-bottom: 40px; }
+    .alert-icon-wrap svg { width: 120px; height: 120px; fill: white; }
+    .hidden { display: none !important; }
+
+    /* --- TEMPLATE LOGIC STYLES --- */
+    /* T1 Hero */
+    [data-tpl="t1"] .overlay { background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.1)); }
+    [data-tpl="t1"] .content { justify-content: flex-end; color: white; }
+    
+    /* T2 Sidebar */
+    [data-tpl="t2"] .bg-img { width: 50%; left: 0; }
+    [data-tpl="t2"] .content { left: 50%; width: 50%; background: white; color: #111; justify-content: center; border-left: 20px solid var(--accent); padding: 80px 100px; }
+    [data-tpl="t2"] .ps-logo, [data-tpl="t2"] .ps-logo-alt { display: none !important; }
+    
+    /* T3 Stat */
+    [data-tpl="t3"] .overlay { background: rgba(0,0,0,0.85); }
+    [data-tpl="t3"] .content { align-items: center; justify-content: center; text-align: center; color: white; }
+    [data-tpl="t3"] .txt-head { font-size: 40px; letter-spacing: 2px; margin-bottom: 10px; opacity: 0.8; }
+    [data-tpl="t3"] .txt-body { text-align: center; }
+
+    /* T4 Event (REBUILT FOR SOLID STABILITY) */
+    [data-tpl="t4"] .bg-img { height: 60%; top: 0; }
+    [data-tpl="t4"] .content { 
+        position: absolute;
+        top: auto; 
+        bottom: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 50%; /* Overlaps the image by 10% */
+        background: #fff; 
+        color: #111; 
+        padding: 60px 80px; 
+        justify-content: center;
+        border-top: 15px solid var(--accent); 
+    }
+    [data-tpl="t4"] .ps-logo { display: none; }
+    [data-tpl="t4"] .txt-eye { color: var(--accent); }
+    [data-tpl="t4"] .txt-head { font-size: 60px; line-height: 1.05; margin-bottom: 15px; }
+    [data-tpl="t4"] .txt-body { font-size: 22px; max-width: 100%; }
+
+    /* T5 Quote */
+    [data-tpl="t5"] .overlay { background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.4)); }
+    [data-tpl="t5"] .content { justify-content: center; align-items: center; text-align: center; color: white; padding: 100px; }
+    [data-tpl="t5"] .txt-head { font-family: 'Libre Franklin', sans-serif; font-style: italic; font-weight: 300; font-size: 60px; line-height: 1.2; letter-spacing: 0; text-transform: none; text-align: center; }
+    [data-tpl="t5"] .txt-eye { color: var(--accent); margin-bottom: 30px; }
+    [data-tpl="t5"] .txt-script { display: none; }
+
+    /* T6 Split */
+    [data-tpl="t6"] .bg-img { height: 50%; top: 0; }
+    [data-tpl="t6"] .content { top: 50%; height: 50%; background: var(--accent); color: white; justify-content: center; }
+    [data-tpl="t6"] .ps-logo { display: none; } 
+    [data-tpl="t6"] .txt-script { color: rgba(255,255,255,0.8); }
+
+    /* T7 Inset */
+    [data-tpl="t7"] .bg-img { inset: 60px; width: auto; height: auto; border: 10px solid white; }
+    [data-tpl="t7"] .overlay { inset: 60px; background: rgba(0,0,0,0.4); }
+    [data-tpl="t7"] .content { justify-content: center; align-items: center; text-align: center; color: white; }
+    [data-tpl="t7"] .txt-head { background: var(--accent); padding: 10px 30px; display: inline-block; text-align: center;}
+    [data-tpl="t7"] .txt-body { text-align: center; }
+
+    /* T8 Bold */
+    [data-tpl="t8"] .bg-img { opacity: 0.3; filter: grayscale(1); }
+    [data-tpl="t8"] .overlay { background: #111; }
+    [data-tpl="t8"] .content { justify-content: center; color: white; }
+    [data-tpl="t8"] .txt-head { font-size: 140px; line-height: 0.9; color: var(--accent); mix-blend-mode: screen; margin-bottom: 0; }
+    [data-tpl="t8"] .txt-eye { color: #888; margin-bottom: 10px; }
+
+    /* T9 Corner */
+    [data-tpl="t9"] .bg-img { width: 0; }
+    [data-tpl="t9"] .overlay { background: white; }
+    [data-tpl="t9"] .content { color: #111; justify-content: space-between; }
+    [data-tpl="t9"]::after { content: ''; position: absolute; bottom: 0; right: 0; width: 300px; height: 300px; background: var(--accent); clip-path: polygon(100% 0, 0% 100%, 100% 100%); z-index: 6; }
+
+    /* A1 Severe */
+    [data-tpl="a1"] .tint-layer { background: rgba(0,0,0,0.85); } 
+    [data-tpl="a1"] .overlay { border: 40px solid var(--accent); }
+    [data-tpl="a1"] .hazard-bg { opacity: 1; }
+    [data-tpl="a1"] .content { align-items: center; justify-content: center; text-align: center; color: white; }
+    [data-tpl="a1"] .txt-head { font-family: 'Bebas Neue'; font-size: 110px; line-height: 0.9; margin-bottom: 10px; color: white; text-shadow: 3px 3px 0px var(--accent); text-align: center; }
+    [data-tpl="a1"] .txt-body { text-align: center; }
+    [data-tpl="a1"] .alert-icon-wrap { display: flex; justify-content: center; background: black; padding: 20px 40px; border-radius: 100px; border: 4px solid var(--accent); }
+    [data-tpl="a1"] .alert-icon-wrap svg { fill: var(--accent); }
+
+    /* A2 Ticker */
+    [data-tpl="a2"] .content { justify-content: flex-end; padding: 0; }
+    [data-tpl="a2"] .ticker-box { background: #000; padding: 40px 50px; border-top: 15px solid var(--accent); }
+    [data-tpl="a2"] .txt-head { font-size: 50px; margin: 0; color: white; line-height: 1; text-align: left; }
+    [data-tpl="a2"] .txt-eye { color: var(--accent); margin-bottom: 5px; }
+    [data-tpl="a2"] .alert-icon-wrap { display: flex; position: absolute; bottom: 40px; right: 40px; margin: 0; gap: 15px; }
+    [data-tpl="a2"] .alert-icon-wrap svg { width: 70px; height: 70px; fill: #555; }
+
+    /* A3 Overlay */
+    [data-tpl="a3"] .overlay { background: linear-gradient(90deg, rgba(0,0,0,0.95) 40%, transparent); }
+    [data-tpl="a3"] .content { width: 50%; color: white; justify-content: center; }
+    [data-tpl="a3"] .txt-head { color: var(--accent); }
+    [data-tpl="a3"] .alert-icon-wrap { display: flex; margin-bottom: 20px; }
+
+    /* Format Specific Overrides - PORTRAIT */
+    [data-format="port"] .content { padding: 120px 100px; } 
+    [data-format="port"] .ps-logo { width: 220px; top: 80px; right: 80px; }
+    [data-format="port"] .txt-head { font-size: 72px; line-height: 1.05; margin-bottom: 30px; } 
+    [data-format="port"] .txt-body { font-size: 26px; line-height: 1.5; max-width: 800px; }
+    [data-format="port"] [data-tpl="t4"] .content { padding: 80px 100px; }
+    [data-format="port"] [data-tpl="t4"] .txt-head { font-size: 72px; }
+
+    /* News Flash Overrides - NEWS */
+    [data-format="news"] .content { padding: 30px 40px !important; } 
+    [data-format="news"] .ps-logo { width: 50px !important; top: 25px !important; right: 25px !important; }
+    [data-format="news"] .txt-eye { font-size: 9px !important; margin-bottom: 6px !important; letter-spacing: 1px !important; }
+    [data-format="news"] .txt-head { font-size: 32px !important; margin-bottom: 12px !important; letter-spacing: -1px !important; line-height: 1.05 !important; } 
+    [data-format="news"] .txt-body { font-size: 15px !important; max-width: 95% !important; line-height: 1.4 !important; } 
+    [data-format="news"] .txt-script { font-size: 24px !important; margin-bottom: 6px !important; }
+    [data-format="news"] .txt-stat { font-size: 80px !important; }
+    [data-format="news"] .alert-icon-wrap { margin-bottom: 8px !important; gap: 10px; }
+    [data-format="news"] .alert-icon-wrap svg { width: 35px !important; height: 35px !important; }
+    
+    [data-format="news"] [data-tpl="a1"] .alert-icon-wrap { padding: 5px 15px !important; border-width: 2px !important; border-radius: 50px; }
+    [data-format="news"] [data-tpl="a1"] .overlay { border-width: 8px !important; }
+    [data-format="news"] [data-tpl="a1"] .txt-head { font-size: 48px !important; }
+    [data-format="news"] [data-tpl="a2"] .ticker-box { padding: 15px 20px !important; border-top-width: 4px !important; }
+    [data-format="news"] [data-tpl="a2"] .txt-head { font-size: 24px !important; }
+    [data-format="news"] [data-tpl="a2"] .alert-icon-wrap { bottom: 15px !important; right: 15px !important; }
+    [data-format="news"] [data-tpl="t2"] .ps-logo { left: 20px !important; bottom: 20px !important; }
+    [data-format="news"] [data-tpl="t2"] .content { padding: 20px 30px !important; }
+    [data-format="news"] [data-tpl="t3"] .txt-head { font-size: 14px !important; }
+    
+    [data-format="news"] [data-tpl="t4"] .bg-img { height: 50%; }
+    [data-format="news"] [data-tpl="t4"] .content { 
+        position: absolute;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60%; 
+        padding: 20px 30px !important; 
+        justify-content: center;
+        border-top-width: 6px;
+        background: #fff;
+    }
+    [data-format="news"] [data-tpl="t4"] .txt-head { font-size: 28px !important; margin-bottom: 8px !important; }
+
+    [data-format="news"] [data-tpl="t5"] .content { padding: 15px !important; }
+    [data-format="news"] [data-tpl="t5"] .txt-head { font-size: 24px !important; }
+    [data-format="news"] [data-tpl="t7"] .bg-img, [data-format="news"] [data-tpl="t7"] .overlay { inset: 12px !important; border-width: 3px !important; }
+    [data-format="news"] [data-tpl="t8"] .txt-head { font-size: 50px !important; }
+    [data-format="news"] [data-tpl="t9"]::after { width: 60px !important; height: 60px !important; }
+
+    /* Tag System - SHRUNK SIZES */
+    .dept-tag { 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 8px; 
+        background: var(--accent); 
+        color: white; 
+        padding: 8px 18px; 
+        border-radius: 50px; 
+        font-family: 'IBM Plex Mono', monospace; 
+        font-weight: 600; 
+        font-size: 10px; 
+        text-transform: uppercase; 
+        letter-spacing: 1px; 
+        width: fit-content; 
+        display: none; 
+        margin-bottom: 15px; 
+        z-index: 30; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+    }
+    .icon-circle { display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.2); width: 20px; height: 20px; border-radius: 50%; }
+    .dept-tag svg { width: 12px; height: 12px; fill: currentColor; }
+    .dept-tag.outline { background: transparent; border: 2px solid currentColor; color: inherit; box-shadow: none; padding: 6px 16px; }
+    .dept-tag.outline .icon-circle { background: transparent; }
+    
+    /* Cleanly scaled for News Flash natively */
+    [data-format="news"] .dept-tag { padding: 4px 12px; font-size: 8px; gap: 6px; margin-bottom: 12px; }
+    [data-format="news"] .icon-circle { width: 14px; height: 14px; }
+    [data-format="news"] .dept-tag svg { width: 8px; height: 8px; }
+
+    /* Utilities */
+    .accessible-script .txt-script { font-family: 'Libre Franklin', sans-serif !important; font-style: italic; letter-spacing: 1px; }
+    .alt-text-area { margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; background: #F1F5F9; border: 1px solid #ddd; padding: 10px; }
+
+  </style>
+</head>
+<body>
+
+<div id="toast">Hex Copied</div>
+
+<aside>
+  <div class="brand-id">CITY OF<br>LAFAYETTE</div>
+  <nav>
+    <span class="nav-label">Strategy</span>
+    <a href="#audience" class="nav-link">01 Our Audience</a>
+    <a href="#strategy" class="nav-link">02-03 Brand Position</a>
+    <a href="#personality" class="nav-link">04 Brand Personality</a>
+
+    <span class="nav-label">Voice and Tone</span>
+    <a href="#writing" class="nav-link">05 Writing Do's</a>
+    <a href="#voice" class="nav-link">06-07 Perspectives</a>
+
+    <span class="nav-label">Interactive Tools</span>
+    <a href="#palette-tool" class="nav-link">Color Palette Studio</a>
+    <a href="#lab-tool" class="nav-link">Typographic Sandbox</a>
+    <a href="#qr-tool" class="nav-link">Qr Codes</a>
+    
+    <span class="nav-label">Pro Suite</span>
+    <a href="#pro-suite" class="nav-link">Asset Generator</a>
+
+    <span class="nav-label">Production</span>
+    <a href="#standards" class="nav-link">08 Logos</a>
+    <a href="#imagery" class="nav-link">09 Brand Imagery</a>
+    <a href="#downloads" class="nav-link">10 Downloads</a>
+  </nav>
+</aside>
+
+<main>
+
+  <section id="audience">
+    <span class="meta">Our Audiences// 01</span>
+    <h2>Our Audiences</h2>
+    <div class="grid-2">
+        <div class="data-block">
+            <span class="data-label">Core Demographic</span>
+          <p>The City of Lafayette communicates with and serves everyone who lives, works, visits, and does business here. Our community members each play a role in shaping our City’s identity and future. </p>
+            <p>As a public service organization, we are committed to transparent, inclusive, and accessible engagement that reflects the diversity of our community.</p>
+        </div>
+        <div class="data-block">
+            <span class="data-label">Key Segments</span>
+          <p>•Residents<br>
+              •Local Businesses<br>
+              •Visitors <br>
+              •Community Partners <br>
+              •Media <br>
+              •Regional/state agencies<br>
+          </p>
+        </div>
+    </div>
+  </section>
+
+  <section id="strategy" style="background: var(--laf-blue); color: white; border: none;">
+    <span class="meta" style="color: white; opacity: 0.5;">Brand Position// 02 + 03</span>
+    <h2 style="color: white;">Brand<br>Position</h2>
+    <p style="font-size: 1.5rem; font-weight: 300; max-width: 800px; line-height: 1.3;">"We weave the daily life and culture of Lafayette into our communications to create a two-way network between the City and the community."</p>
+    <div style="font-family: 'Mr Dafoe', cursive; color: var(--laf-green); font-size: 4rem; margin-top: 40px; transform: rotate(-2deg);">Small Town. Big Lives. Open Minds.</div>
+  </section>
+
+  <section id="personality">
+    <span class="meta">Personality// 04</span>
+    <h2>Personality</h2>
+    <div class="grid-2">
+        <div class="data-block">
+            <span class="data-label">Vibe and Spirit  </span>
+            <p>A unique blend of artsy and outdoorsy. Friendly, neighborly, and diverse, with a down-to-earth sensibility. We strive to communicate like the neighbor you actually want to talk to: approachable, authentic, and welcoming.</p>
+        </div>
+        <div class="data-block">
+            <span class="data-label">Voice Pillars</span>
+            <p>Engaging, creative, and big-thinking yet approachable. Inclusive and reflective of our eclectic community.</p>
+        </div>
+    </div>
+  </section>
+
+  <section id="writing" style="background: var(--slate);">
+    <span class="meta">Writing Do's// 05</span>
+    <h2>Writing Do's</h2>
+    <div class="grid-2">
+        <div class="data-block">
+            <span class="data-label">City Protocol</span>
+            <p>Use clear, concise, and plain language. Be conversational yet professional. Lead with what matters most. Use visual elements that reinforce the City’s brand. Always link to official City resources for details and transparency</p>
+        </div>
+        <div class="data-block">
+            <span class="data-label">Digital Presence</span>
+            <p>Keep social media posts short, clear and impactful. When communicating directly with residents, use “Lafayette” instead of “the City” to sound more approachable. Include clear calls to action when appropriate.</p>
+        </div>
+    </div>
+  </section>
+
+  <section id="voice">
+    <span class="meta">Perspective// 06 + 07</span>
+    <h2>Perspective</h2>
+    <div class="grid-2">
+        <div class="data-block">
+            <span class="data-label">First Person (Preferred for community engagement)</span>
+            <p>Use first person (“we,” “our”) for casual, community-oriented communication. This approach feels welcoming and conversational. Best for social media and event invitations.</p>
+            <em style="color: var(--laf-purple); font-size: 0.85rem; font-weight: 600;">"We're excited to invite you to our next town hall"</em>
+        </div>
+        <div class="data-block">
+            <span class="data-label">Third Person (More formal and official)</span>
+            <p>Use third person for formal, official, or record-based communication. Best for news flashes, press releases, reports and official documents, Council communications and policy or educational content.</p>
+            <em style="color: var(--laf-purple); font-size: 0.85rem; font-weight: 600;">"The City of Lafayette has published the 2024 budget."</em>
+        </div>
+    </div>
+  </section>
+
+  <section id="palette-tool">
+    <span class="meta">Interactive Tool // Palette Studio</span>
+    <h2>Color Control</h2>
+    <div class="palette-toolbar">
+        <select class="tool-select" id="themeSelect" onchange="applyTheme(this.value)"></select>
+        <button class="btn-agency" onclick="shufflePalette()">Randomize</button>
+        <button class="btn-agency btn-outline" onclick="copyFullPalette()">Copy All HEX</button>
+    </div>
+    <div class="palette-shutter" id="pGrid"></div>
+    <p style="font-family:'IBM Plex Mono'; font-size: 0.7rem; color: #999; margin-top:20px;">
+        INSTRUCTIONS: Click HEX code to copy. Use the lock icon to hold a color while randomizing others. Use the circular picker to fine-tune specific shades.
+    </p>
+  </section>
+
+  <section id="lab-tool" style="background: #F1F5F9; color: white;">
+    <span class="meta" style="color: white; opacity: 0.5;">Interactive Tool // Sandbox</span>
+    <h2 style="color: #00539B;">Typographic<br>Lab</h2>
+    <div class="lab-layout">
+        <div class="lab-controls">
+            <span class="data-label">Headline Font Family</span>
+            <select id="hF" onchange="updateLab()">
+                <option value="'Libre Franklin', sans-serif">Franklin Gothic (Heavy)</option>
+                <option value="'Bebas Neue', cursive">Bebas Neue (Impact)</option>
+                <option value="'Montserrat', sans-serif">Montserrat (Modern)</option>
+                <option value="'Roboto Mono', monospace">Roboto Mono (Technical)</option>
+            </select>
+            <span class="data-label">Body Font Family</span>
+            <select id="bF" onchange="updateLab()">
+                <option value="'Libre Franklin', sans-serif">Franklin Gothic (Standard)</option>
+                <option value="'Montserrat', sans-serif">Montserrat (Light)</option>
+                <option value="'Roboto Mono', monospace">Roboto Mono (Code)</option>
+            </select>
+            <span class="data-label">Canvas Color</span>
+            <input type="color" id="bgC" value="#FFFFFF" oninput="updateLab()">
+            <span class="data-label">Ink Color</span>
+            <input type="color" id="txC" value="#0B1220" oninput="updateLab()">
+            
+            <div style="margin-top: 15px; border-top: 1px solid #ccc; padding-top: 15px;">
+              <span class="data-label">Accent Font Family</span>
+               <select id="aF" onchange="updateLab()">
+                   <option value="'Mr Dafoe', cursive">Mr Dafoe (Standard)</option>
+                   <option value="'Rock Salt', cursive">Rock Salt (Expressive)</option>
+                   <option value="'Libre Franklin', sans-serif">Libre Franklin (Accessible)</option>
+               </select>
+            </div>
+            
+            <span class="data-label" style="margin-top:20px;">Brand Script Accent (Short Only)</span>
+            <input type="text" id="accentText" value="Small Town. Big Lives." maxlength="28" placeholder="Keep it short" oninput="updateAccent()">
+            
+            <span class="data-label">Accent Size (Readable Range)</span>
+            <input type="range" id="accentSize" min="28" max="52" value="40" oninput="updateAccent()">
+        </div>
+        <div class="preview-stage" id="canvas">
+            <h1 id="h" style="font-size: 5.5rem; margin: 0; line-height: 0.85; font-weight: 900;">LAFAYETTE.</h1>
+            <p id="p" style="font-size: 1.3rem; max-width: 500px; margin: 30px auto; line-height: 1.4;">
+                Franklin Gothic is our primary workhorse. It should represent 90% of our written communications for maximum legibility.
+            </p>
+            <div id="accentLine" style="font-family: 'Mr Dafoe', cursive; font-size: 40px; margin-top:20px;">Small Town. Big Lives.</div>
+            <div id="ratio" style="font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: #999; border-top: 1px solid #eee; padding-top: 20px; margin-top: 40px; text-align: left;">
+                CONTRAST RATIO: 21.0 (PASS)
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <section id="qr-tool">
+    <span class="meta">Interactive Tool // 03</span>
+    <h2> QR CODES</h2>
+    <div class="qr-interface">
+        <div class="qr-controls">
+            <div class="data-block" style="border-top: 1px solid var(--laf-blue);">
+                <span class="data-label">URL Destination</span>
+                <input type="text" id="qrText" class="qr-input" value="https://lafayette.co.gov" oninput="generateQRCode()">
+            </div>
+            <div class="data-block" style="border-top: 1px solid var(--laf-blue);">
+                <span class="data-label">Brand Color</span>
+                <input type="color" id="qrColor" value="#00539b" style="width:100%; height:45px; cursor:pointer; border:1px solid #333;" oninput="generateQRCode()">
+            </div>
+            <button onclick="downloadQR()" class="btn-agency" style="width:100%; margin-top:20px;">Download Asset</button>
+        </div>
+        <div class="qr-stage">
+            <div id="qrcode"></div>
+        </div>
+    </div>
+  </section>
+
+  <section id="pro-suite">
+    <div class="ps-wrapper">
+        <div class="ps-sidebar">
+          <div class="ps-header">
+            <h1>Lafayette <span class="ps-badge"> Pro </span></h1>
+          </div>
+          
+          <div class="ps-scroll">
+            <div class="ps-group">
+              <span class="ps-label">1. Background</span>
+              <div class="ps-grid">
+                <button class="ps-btn" onclick="document.getElementById('imgUpload').click()">Upload Photo</button>
+                <button class="ps-btn" onclick="resetImg()">Reset</button>
+              </div>
+              <input type="file" id="imgUpload" onchange="handleImage(event)" style="display:none;">
+            </div>
+        
+            <div class="ps-group">
+              <span class="ps-label">2. Format</span>
+              <select id="inp-size" onchange="setSize()">
+                <option value="sq">Square (1080x1080) - Social</option>
+                <option value="news">News Flash (565x375) - Web</option>
+                <option value="port">Portrait (1080x1920) - Story</option>
+              </select>
+            </div>
+            
+            <div class="ps-group">
+              <span class="ps-label">3. Layouts</span>
+              
+              <span class="ps-label" style="color:#555; margin-top:10px;">Brand Marketing</span>
+              <div class="ps-grid">
+                <div class="tpl-btn active" onclick="setTpl('t1', this)">Hero<span>Standard</span></div>
+                <div class="tpl-btn" onclick="setTpl('t2', this)">Lafayette Pro<span>Sidebar</span></div>
+                <div class="tpl-btn" onclick="setTpl('t3', this)">Stat<span>Data Focus</span></div>
+                <div class="tpl-btn" onclick="setTpl('t4', this)">Event<span>Card</span></div>
+                <div class="tpl-btn" onclick="setTpl('t5', this)">Quote<span>Editorial</span></div>
+                <div class="tpl-btn" onclick="setTpl('t6', this)">Split<span>Two-Tone</span></div>
+                <div class="tpl-btn" onclick="setTpl('t7', this)">Inset<span>Frame</span></div>
+                <div class="tpl-btn" onclick="setTpl('t8', this)">Bold<span>Typographic</span></div>
+                <div class="tpl-btn" onclick="setTpl('t9', this)">Corner<span>Minimalist</span></div>
+              </div>
+        
+              <span class="ps-label" style="color:#555; margin-top:15px;">Emergency Alerts</span>
+              
+              <div id="icon-control" class="hidden" style="margin-bottom:10px; border:1px solid #D32F2F; padding:15px; border-radius:8px; background:#FEF2F2;">
+                <span class="ps-label" style="color:#D32F2F; margin-bottom:5px;">Primary Hazard</span>
+                <select id="inp-icon" onchange="updateAlert()" style="border-color:#D32F2F; background:white;">
+                  <option value="power">⚡ Power Outage</option>
+                  <option value="fire">🔥 Fire</option>
+                  <option value="flood">🌊 Flood (Wave)</option>
+                  <option value="snow">❄️ Snow / Ice</option>
+                  <option value="heat">☀️ Extreme Heat</option>
+                  <option value="wind">💨 High Winds</option>
+                </select>
+              </div>
+        
+              <div class="ps-grid">
+                <div class="tpl-btn" onclick="setTpl('a1', this)">Severe<span>Critical</span></div>
+                <div class="tpl-btn" onclick="setTpl('a2', this)">Ticker<span>News Flash</span></div>
+                <div class="tpl-btn" onclick="setTpl('a3', this)">Overlay<span>Context</span></div>
+              </div>
+            </div>
+        
+            <div class="ps-group">
+              <span class="ps-label">4. Content</span>
+              
+              <select id="inp-font" onchange="updateContent()">
+                <option value="Libre Franklin">Libre Franklin (Standard)</option>
+                <option value="Montserrat">Montserrat (Modern)</option>
+                <option value="Bebas Neue">Bebas Neue (Impact)</option>
+                <option value="Roboto Mono">Roboto Mono (Tech)</option>
+              </select>
+        
+              <input type="text" id="inp-eye" placeholder="Eyebrow" value="COMMUNITY UPDATE" oninput="updateContent()">
+              <textarea id="inp-head" placeholder="Headline" oninput="this.value = this.value.replace(/&/g, 'AND'); updateContent();">2026 BUDGET: STABLE AND STRONG</textarea>
+              
+              <input type="text" id="inp-stat" class="hidden" placeholder="Statistic" value="98 %" oninput="updateContent()">
+              <input type="text" id="inp-script" placeholder="Script Accent" value="Building our future" oninput="updateContent()">
+              
+              <span class="ps-label" style="margin-top:10px; margin-bottom:5px;">Accent Font Style</span>
+              <select id="inp-accent" onchange="updateAccentFont()">
+                 <option value="'Mr Dafoe', cursive">Mr Dafoe (Standard)</option>
+                 <option value="'Rock Salt', cursive">Rock Salt (Expressive)</option>
+                 <option value="'Libre Franklin', sans-serif">Libre Franklin (Accessible)</option>
+              </select>
+
+              <textarea id="inp-body" placeholder="Body Copy" oninput="updateContent()">The City is prioritizing transparency and core services for all residents.</textarea>
+              
+              <div style="margin-top:15px; padding-top:15px; border-top:1px solid #ddd;">
+                  <span class="ps-label" style="margin-bottom:6px;">Alt Text Generator</span>
+                  <input type="text" id="inp-img-desc" placeholder="Describe image context (e.g. 'Families in park')">
+                  <button class="ps-btn" style="font-size:10px;" onclick="generateAltText()">✨ Generate AI Alt Text</button>
+                  <textarea id="alt-text-result" class="alt-text-area" placeholder="Alt text will appear here..." readonly></textarea>
+              </div>
+            </div>
+        
+            <div class="ps-group">
+              <span class="ps-label">5. Colors</span>
+              <div class="ps-swatches">
+                <div class="ps-swatch selected" style="background:#00539b" onclick="setColor('#00539b', this)"></div>
+                <div class="ps-swatch" style="background:#8dc63f" onclick="setColor('#8dc63f', this)"></div>
+                <div class="ps-swatch" style="background:#565193" onclick="setColor('#565193', this)"></div>
+                <div class="ps-swatch" style="background:#D32F2F" onclick="setColor('#D32F2F', this)"></div>
+                <div class="ps-swatch" style="background:#F57C00" onclick="setColor('#F57C00', this)"></div>
+                <div class="ps-swatch" style="background:#455A64" onclick="setColor('#455A64', this)"></div>
+                <div class="ps-swatch" style="background:#1C355E" onclick="setColor('#1C355E', this)"></div>
+                <div class="ps-swatch" style="background:#2F529F" onclick="setColor('#2F529F', this)"></div>
+                <div class="ps-swatch" style="background:#266E4E" onclick="setColor('#266E4E', this)"></div>
+                <div class="ps-swatch" style="background:#FDB813" onclick="setColor('#FDB813', this)"></div>
+              </div>
+              
+              <span class="ps-label" style="margin-top:15px;">Logo and Branding</span>
+              <div class="ps-grid">
+                 <button class="ps-btn" style="background:#333; color:white; border:none;" onclick="document.getElementById('logoUpload').click()">Upload Primary</button>
+                 <button class="ps-btn" onclick="toggleLogo()">Hide/Show</button>
+                 <input type="file" id="logoUpload" style="display:none" onchange="handleLogoUpload(event)">
+              </div>
+
+              <div style="margin-top:10px;">
+                 <span class="ps-label" style="font-size:9px; margin-bottom:4px;">Primary Logo Position (X / Y)</span>
+                 <input type="range" min="-1200" max="1200" value="0" oninput="updateLogoPos()" id="logoX">
+                 <input type="range" min="-1200" max="1200" value="0" oninput="updateLogoPos()" id="logoY">
+              </div>
+
+              <div style="margin-top:15px; border-top:1px solid #ddd; padding-top:15px;">
+                  <span class="ps-label">Partner Logo</span>
+                  <div class="ps-grid">
+                      <button class="ps-btn" onclick="document.getElementById('logoAltUpload').click()">Upload Partner</button>
+                      <button class="ps-btn" onclick="togglePartnerLogo()">Toggle Partner</button>
+                      <input type="file" id="logoAltUpload" style="display:none" onchange="handlePartnerLogoUpload(event)">
+                  </div>
+                  <div style="margin-top:10px;">
+                     <span class="ps-label" style="font-size:9px; margin-bottom:4px;">Partner Position (X / Y)</span>
+                     <input type="range" min="-1200" max="1200" value="0" oninput="updateLogoPos()" id="logoAltX">
+                     <input type="range" min="-1200" max="1200" value="0" oninput="updateLogoPos()" id="logoAltY">
+                  </div>
+              </div>
+      
+              <span class="ps-label" style="margin-top:15px;">Logo Tint Mode</span>
+              <select id="inp-tint" onchange="updateLogoTint()">
+                <option value="none">Original (No Filter)</option>
+                <option value="white">Force White (For Dark BG)</option>
+                <option value="black">Force Black (For Light BG)</option>
+              </select>
+            </div>
+            
+            <div class="ps-group">
+                <span class="ps-label">6. Departments</span>
+                <select id="inp-dept-tag" onchange="updateDeptTag()">
+                    <option value="none">None (Hidden)</option>
+                    <option value="parks">Parks and Rec</option>
+                    <option value="water">Water and Utilities</option>
+                    <option value="arts">Arts and Culture</option>
+                    <option value="library">Public Library</option>
+                    <option value="police">Public Safety</option>
+                    <option value="fire">Fire and Rescue</option>
+                    <option value="finance">Finance Dept</option>
+                    <option value="sustain">Sustainability</option>
+                </select>
+                <button class="ps-btn" style="margin-top:5px;" onclick="toggleTagStyle()">Toggle Solid/Outline</button>
+            </div>
+        
+            <button class="ps-btn-primary" onclick="downloadPS()">Download PNG</button>
+          </div>
+        </div>
+
+        <div class="ps-stage">
+          <div class="ps-stage-info" id="dim-disp">1080 x 1080 px</div>
+          
+          <div id="artboard" data-tpl="t1" data-format="sq">
+            <div class="layer bg-img" id="bgLayer"></div>
+            <div class="layer tint-layer"></div> 
+            <div class="layer hazard-bg"></div>
+            <div class="layer overlay"></div>
+        
+            <img src="" class="ps-logo" id="logo" style="display: none;">
+            <img src="" class="ps-logo-alt" id="logoAlt">
+            
+            <div class="layer content">
+              <div class="alert-icon-wrap" id="iconWrap"></div>
+        
+              <div class="ticker-box hidden" id="tickerBox">
+                <div class="txt-eye" id="out-eye-ticker"></div>
+                <div class="txt-head" id="out-head-ticker"></div>
+              </div>
+        
+              <div id="main-content">
+                <div class="dept-tag" id="deptTag">
+                    <div class="icon-circle">
+                        <svg class="hidden" id="tag-icn-parks" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l6 12H6l6-12z"/></svg>
+                        <svg class="hidden" id="tag-icn-water" viewBox="0 0 24 24"><path d="M12 2c-5.33 4.55-8 8.48-8 11.8 0 4.98 3.8 8.2 8 8.2s8-3.22 8-8.2c0-3.32-2.67-7.25-8-11.8z"/></svg>
+                        <svg class="hidden" id="tag-icn-arts" viewBox="0 0 24 24"><path d="M12 2l-2 5h4l-2-5zm-3 6l-1 4h8l-1-4H9zm-2 5l-2 5c0 2 1.5 4 4 4h6c2.5 0 4-2 4-4l-2-5H7z"/></svg>
+                        <svg class="hidden" id="tag-icn-library" viewBox="0 0 24 24"><path d="M12 5c-4 0-8 3-8 3v13s4-3 8-3 8 3 8 3V8s-4-3-8-3zM12 18V5"/></svg>
+                        <svg class="hidden" id="tag-icn-police" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z"/></svg>
+                        <svg class="hidden" id="tag-icn-fire" viewBox="0 0 24 24"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/></svg>
+                        <svg class="hidden" id="tag-icn-finance" viewBox="0 0 24 24"><rect x="3" y="12" width="4" height="8"/><rect x="9" y="8" width="4" height="12"/><rect x="15" y="4" width="4" height="16"/></svg>
+                        <svg class="hidden" id="tag-icn-sustain" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20C19 20 22 3 22 3S7 17.2 7 17.2 19.92 4.86 18.88 4.56C18.5 5.25 11.38 15.06 7 17.2z"/></svg>
+                    </div>
+                    <span id="tag-text">DEPARTMENT</span>
+                </div>
+
+                <div class="txt-eye" id="out-eye">COMMUNITY UPDATE</div>
+                <div class="txt-stat hidden" id="out-stat">98 %</div>
+                <div class="txt-script" id="out-script">Building our future</div>
+                <div class="txt-head" id="out-head">2026 BUDGET: STABLE AND STRONG</div>
+                <div class="txt-body" id="out-body">The City is prioritizing transparency and core services for all residents.</div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <section id="standards">
+    <span class="meta">Blueprint // 08</span>
+    <h2>Logos.</h2>
+    <div class="logo-matrix">
+        <div class="logo-item">
+            <div class="logo-placeholder"><img src="https://lh3.googleusercontent.com/d/1QippCAtwscCPKhfgoTvLqKf8AyesQnht=w1000" width="150" height="" alt="Standard RGB Logo"/></div>
+            <span class="data-label" style="color: var(--laf-green);">DO: Approved Usage</span>
+        </div>
+        <div class="logo-item" style="background: var(--ink); color: white;">
+            <div class="logo-placeholder" style="border-color: #333; color: #fff;"><img src="https://lh3.googleusercontent.com/d/1t8T6QKsJRWBUb7ZawKjmwtdjyOdhd1ze=w1000" width="150" height="" alt="Reverse White Logo"/></div>
+            <span class="data-label" style="color: white;">DO: For Dark Assets</span>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: #fff5f5; border-color: #feb2b2; color: #c53030;">
+              <p><img src="https://lh3.googleusercontent.com/d/1_puMheKYggm6aOcmZqJ2hd1Ka2OyyIrx=w1000" width="100" height="80" alt="CMYK Logo" style="transform: scaleX(1.4) scaleY(0.6) skewX(-15deg); opacity: 0.8;"/></p>
+              <p> </p>
+            </div>
+            <span class="data-label" style="color: #ef4444;">DON'T: Distort</span>
+        </div>
+    </div>
+  </section>
+
+  <section id="imagery">
+    <span class="meta">Brand Imagery // 09</span>
+    <h2>Brand Imagery</h2>
+    
+    <p style="font-size: 1.15rem; max-width: 850px; margin-bottom: 40px; line-height: 1.5; color: #333;">
+        Lafayette’s story is told through its people, places, and creative energy. The following image categories guide how we visually represent our community in a way that feels real, vibrant, and distinctly Lafayette.
+    </p>
+
+    <div style="margin-bottom: 40px;">
+        <a href="file://///sebastian.acevedo/S/!PHOTOS" class="btn-agency" style="font-size: 0.75rem; padding: 18px 30px;">Access Photo Library</a>    </div>
+
+    <div class="grid-2">
+        <div class="asset-card" style="padding: 15px; border-radius: 8px;">
+            <img src="https://www.lafayetteco.gov/DocumentCenter/View/46067/Art_Night_Out10GA" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 15px;" alt="Sample Photo: People">
+            <span class="data-label">Category 01: People</span>
+            <p style="margin: 0; font-size: 0.9rem;">Authentic, diverse and candid community members that reflects real life in Lafayette. Avoid staged scenarios or generic stock imagery.</p>
+        </div>
+        <div class="asset-card" style="padding: 15px; border-radius: 8px;">
+            <img src="https://www.lafayetteco.gov/DocumentCenter/View/46064/DJI_0018-HDR" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 15px;" alt="Sample Photo: Scenery">
+            <span class="data-label">Category 02: Scenery</span>
+            <p style="margin: 0; font-size: 0.9rem;">Breathtaking views of the Flatirons and wide-open spaces that define the Lafayette landscape.</p>
+        </div>
+        <div class="asset-card" style="padding: 15px; border-radius: 8px;">
+            <img src="https://www.lafayetteco.gov/DocumentCenter/View/46068/Art_Night_Out40GA" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 15px;" alt="Sample Photo: Events">
+            <span class="data-label">Category 03: Events</span>
+            <p style="margin: 0; font-size: 0.9rem;">Vibrant community gatherings that highlight connection and the eclectic local culture.</p>
+        </div>
+        <div class="asset-card" style="padding: 15px; border-radius: 8px;">
+            <img src="https://www.lafayetteco.gov/DocumentCenter/View/46065/Old_Town_Lafayette8GA" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 15px;" alt="Sample Photo: Public Art">
+            <span class="data-label">Category 04: Public Art</span>
+            <p style="margin: 0; font-size: 0.9rem;">Showcasing the creative spirit of the city through eclectic and energizing public works.</p>
+        </div>
+    </div>
+  </section>
+
+  <section id="downloads">
+    <span class="meta">Production // 11</span>
+    <h2>Asset Downloads.</h2>
+    <div style="margin-top: 40px; margin-bottom: 60px;">
+        <span class="data-label" style="font-size: 0.9rem; color: #00539b; border-bottom: 2px solid #00539b; padding-bottom: 10px; display:inline-block;">Canva Templates</span>
+        <div class="alert-box" style="margin-top: 20px;">
+            <strong>Important:</strong> These links open a read-only master file. <br>
+            You must go to <strong>File > Make a Copy</strong> to save an editable version to your personal Canva account.
+        </div>
+        <div class="grid-4">
+            <div class="asset-card">
+                <span class="asset-title">Standard Flyers</span>
+                <div class="asset-preview" style="font-size: 1rem; color:#999; font-weight:400; font-family:'Roboto Mono';">8.5" x 11"</div>
+                <a href="https://www.canva.com/folder/FAHAlokdTkQ" target="_blank" class="btn-download">Open in Canva</a>
+            </div>
+            <div class="asset-card">
+                <span class="asset-title">Poster Flyers</span>
+                <div class="asset-preview" style="font-size: 1rem; color:#999; font-weight:400; font-family:'Roboto Mono';">11" x 17"</div>
+                <a href="https://www.canva.com/folder/FAHBIJsBkCM" target="_blank" class="btn-download">Open in Canva</a>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px;">
+        <span class="data-label" style="font-size: 0.9rem; color: #00539b; border-bottom: 2px solid #00539b; padding-bottom: 10px; display:inline-block;">Brand Typography</span>
+        <div class="grid-4">
+            <div class="asset-card"><span class="asset-title">Primary Sans</span><div class="asset-preview" style="font-family: 'Libre Franklin', sans-serif; font-weight: 800;">Ag</div><a href="https://fonts.google.com/specimen/Libre+Franklin" target="_blank" class="btn-download">Get Libre Franklin</a></div>
+            <div class="asset-card"><span class="asset-title">Display Caps</span><div class="asset-preview" style="font-family: 'Bebas Neue', cursive;">Ag</div><a href="https://fonts.google.com/specimen/Bebas+Neue" target="_blank" class="btn-download">Get Bebas Neue</a></div>
+            <div class="asset-card"><span class="asset-title">Modern Sans</span><div class="asset-preview" style="font-family: 'Montserrat', sans-serif; font-weight: 700;">Ag</div><a href="https://fonts.google.com/specimen/Montserrat" target="_blank" class="btn-download">Get Montserrat</a></div>
+            <div class="asset-card"><span class="asset-title">Brand Script</span><div class="asset-preview" style="font-family: 'Mr Dafoe', cursive;">Ag</div><a href="https://fonts.google.com/specimen/Mr+Dafoe" target="_blank" class="btn-download">Get Mr Dafoe</a></div>
+            <div class="asset-card"><span class="asset-title">Technical Mono</span><div class="asset-preview" style="font-family: 'Roboto Mono', monospace; font-weight: 400;">Ag</div><a href="https://fonts.google.com/specimen/Roboto+Mono" target="_blank" class="btn-download">Get Roboto Mono</a></div>
+        </div>
+    </div>
+
+    <div style="margin-top: 60px;">
+        <span class="data-label" style="font-size: 0.9rem; color: #00539b; border-bottom: 2px solid #00539b; padding-bottom: 10px; display:inline-block;">Official Logos</span>
+        <div class="grid-4">
+            <div class="asset-card"><span class="asset-title">Master Source</span><div class="asset-preview" style="font-size: 1rem; color:#999; border: 2px solid #ff9f24; color: #ff9f24;">AI</div><a href="https://drive.google.com/uc?export=download&id=1sxNpMaupWjWwJL2OsvUs_sgM-FJintKM" class="btn-download" style="background: #FFF3E0; color: #E65100;">Download AI File</a></div>
+            <div class="asset-card"><span class="asset-title">Standard RGB</span><div class="asset-preview" style="font-size: 1rem; color:#999;">PNG</div><a href="https://drive.google.com/uc?export=download&id=1QippCAtwscCPKhfgoTvLqKf8AyesQnht" class="btn-download">Download PNG</a></div>
+            <div class="asset-card"><span class="asset-title">Reverse White</span><div class="asset-preview" style="font-size: 1rem; color:#999; background:#333; padding:5px;">PNG</div><a href="https://drive.google.com/uc?export=download&id=1t8T6QKsJRWBUb7ZawKjmwtdjyOdhd1ze" class="btn-download">Download PNG</a></div>
+            <div class="asset-card"><span class="asset-title">Print CMYK</span><div class="asset-preview" style="font-size: 1rem; color:#999;">PNG</div><a href="https://drive.google.com/uc?export=download&id=1_puMheKYggm6aOcmZqJ2hd1Ka2OyyIrx" class="btn-download">Download PNG</a></div>
+        </div>
+    </div>
+ </section>
+
+</main>
+
+<script>
+    /* --- PALETTE STUDIO --- */
+    const PALETTES = [
+      { name: "Official Core", colors: ["#00539B", "#8DC63F", "#565193", "#FFFFFF", "#414042"] },
+      { name: "Formal Dark", colors: ["#1B365D", "#355E9F", "#FFFFFF", "#E6E7E8", "#414042"] },
+      { name: "City and Nature", colors: ["#00539B", "#2E6C49", "#A2CD5A", "#FFFFFF", "#8DC63F"] },
+      { name: "Sunset Vibes", colors: ["#754C83", "#F18473", "#FF9F24", "#FFFFFF", "#FCC02A"] },
+      { name: "Parks and Rec", colors: ["#2E6C49", "#4FA566", "#C4DF92", "#A2CD5A", "#FFFFFF"] },
+      { name: "Summer Festival", colors: ["#FF9F24", "#FCC02A", "#FDE18D", "#355E9F", "#FFFFFF"] },
+      { name: "Art Walk", colors: ["#565193", "#754C83", "#A06FAD", "#9CD3CC", "#FFFFFF"] },
+      { name: "Sustainability", colors: ["#389F93", "#9CD3CC", "#A2CD5A", "#2E6C49", "#FFFFFF"] },
+      { name: "Downtown Night", colors: ["#1B365D", "#754C83", "#A2383C", "#FCC02A", "#FFFFFF"] },
+      { name: "Winter Sky", colors: ["#1B365D", "#355E9F", "#9CD3CC", "#E6E7E8", "#FFFFFF"] },
+      { name: "Historic Main", colors: ["#A2383C", "#1B365D", "#FCC02A", "#E6E7E8", "#414042"] },
+      { name: "Spring Bloom", colors: ["#A06FAD", "#A2CD5A", "#9CD3CC", "#FFFFFF", "#F18473"] },
+      { name: "Warm Welcome", colors: ["#A2383C", "#F18473", "#FF9F24", "#FDE18D", "#FFFFFF"] },
+      { name: "Old Town", colors: ["#1B365D", "#A2383C", "#FDE18D", "#FFFFFF", "#414042"] },
+      { name: "Clean Energy", colors: ["#00539B", "#389F93", "#A2CD5A", "#FFFFFF", "#E6E7E8"] },
+      { name: "Vibrant Youth", colors: ["#00ADEF", "#8DC63F", "#F18473", "#FF9F24", "#FFFFFF"] },
+      { name: "Community", colors: ["#355E9F", "#4FA566", "#FCC02A", "#FFFFFF", "#00539B"] },
+      { name: "Garden Tour", colors: ["#A06FAD", "#C4DF92", "#F18473", "#FFFFFF", "#754C83"] },
+      { name: "Tech and Innovation", colors: ["#1B365D", "#00ADEF", "#9CD3CC", "#FFFFFF", "#414042"] },
+      { name: "Diverse Spectrum", colors: ["#A2383C", "#2E6C49", "#1B365D", "#FCC02A", "#FFFFFF"] }
+    ];
+
+    let currentColors = [...PALETTES[0].colors]; 
+    let locks = [false, false, false, false, false];
+
+    function renderPalette() {
+      const container = document.getElementById('pGrid');
+      if(!container) return;
+      container.innerHTML = '';
+      currentColors.forEach((c, i) => {
+        const textColor = getL(c) > 0.5 ? '#000' : '#fff';
+        const div = document.createElement('div');
+        div.className = 'swatch'; div.style.backgroundColor = c; div.style.color = textColor;
+        div.innerHTML = `
+          <div class="swatch-controls">
+            <button class="lock-btn ${locks[i]?'active':''}" onclick="toggleLock(${i})">${locks[i]?'Locked':'Lock'}</button>
+            <div class="picker-wrapper" style="border-color:${textColor}"><input type="color" value="${c}" oninput="updateSingle(${i}, this.value)"></div>
+          </div>
+          <div class="swatch-meta" onclick="copyHex('${c}')">${c.toUpperCase()}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function toggleLock(i) { locks[i] = !locks[i]; renderPalette(); }
+    function updateSingle(i, val) { currentColors[i] = val.toUpperCase(); renderPalette(); }
+    function applyTheme(idx) { currentColors = [...PALETTES[idx].colors]; locks = [false,false,false,false,false]; renderPalette(); }
+    function shufflePalette() { currentColors = currentColors.map((c, i) => locks[i] ? c : '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0').toUpperCase()); renderPalette(); }
+    function copyHex(hex) { navigator.clipboard.writeText(hex); toast(`Copied ${hex}`); }
+    function copyFullPalette() { navigator.clipboard.writeText(currentColors.join(', ')); toast(`All HEX codes copied`); }
+    function toast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000); }
+
+    /* --- TYPOGRAPHIC LAB --- */
+    function updateLab() {
+        const bg = document.getElementById('bgC').value, tx = document.getElementById('txC').value;
+        const hF = document.getElementById('hF').value, bF = document.getElementById('bF').value;
+        const canvas = document.getElementById('canvas'), h = document.getElementById('h'), p = document.getElementById('p'), ratioDiv = document.getElementById('ratio');
+        
+        canvas.style.backgroundColor = bg; h.style.color = tx; h.style.fontFamily = hF; p.style.color = tx; p.style.fontFamily = bF;
+        
+        const accentF = document.getElementById('aF').value;
+        const accentEl = document.getElementById('accentLine');
+        if(accentEl) {
+            accentEl.style.fontFamily = accentF;
+            accentEl.style.fontStyle = accentF.includes('Libre') ? 'italic' : 'normal';
+        }
+        
+        const ratio = calcContrast(bg, tx);
+        ratioDiv.innerText = `CONTRAST RATIO: ${ratio.toFixed(1)} (${ratio >= 4.5 ? 'PASS' : 'FAIL'})`;
+        ratioDiv.style.color = ratio >= 4.5 ? '#999' : '#ef4444';
+    }
+
+    function updateAccent() {
+      const accent = document.getElementById('accentLine');
+      const t = document.getElementById('accentText').value.trim();
+      const s = document.getElementById('accentSize').value;
+      const tx = document.getElementById('txC').value;
+      if (accent) {
+        accent.textContent = t.length ? t : 'Small Town. Big Lives.';
+        accent.style.fontSize = `${parseInt(s, 10)}px`;
+        accent.style.color = tx;
+      }
+    }
+
+    function calcContrast(h1, h2) {
+        const l1 = getL(h1), l2 = getL(h2);
+        return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+    }
+    function getL(h) {
+        const rgb = h.match(/[A-Za-z0-9]{2}/g).map(v => {
+            let n = parseInt(v, 16) / 255;
+            return n <= 0.03928 ? n / 12.92 : Math.pow((n + 0.055) / 1.055, 2.4);
+        });
+        return rgb[0]*0.2126 + rgb[1]*0.7152 + rgb[2]*0.0722;
+    }
+
+    /* --- QR ENGINE --- */
+    function generateQRCode() {
+        const el = document.getElementById("qrcode");
+        el.innerHTML = "";
+        new QRCode(el, { text: document.getElementById("qrText").value, width: 250, height: 250, colorDark: document.getElementById("qrColor").value, colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H });
+    }
+    function downloadQR() {
+        const img = document.querySelector("#qrcode img");
+        if(img && img.src) { const link = document.createElement('a'); link.download = 'Lafayette-QR.png'; link.href = img.src; link.click(); }
+    }
+
+    /* ============================================================
+       PRO SUITE LOGIC (NATIVE)
+    ============================================================ */
+    const DEF_BG = "linear-gradient(135deg, #0f172a, #334155)";
+    let currentTpl = 't1';
+
+    const iconBank = {
+        power: '<path d="M11 21h-1l1-7H7.5c-.58 0-.57-.32-.38-.66C7.67 12.16 9.4 9.15 11.5 5h1l-1 7h3.5c.49 0 .56.33.47.51l-.07.15C12.96 17.55 11 21 11 21z"/>',
+        fire: '<path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>',
+        flood: '<path d="M12 12c-2.28 0-4.22-1.06-5.5-2.68C5.22 10.94 3.28 12 1 12v2c2.28 0 4.22-1.06 5.5-2.68C7.78 12.94 9.72 14 12 14s4.22-1.06 5.5-2.68C18.78 12.94 20.72 14 23 14v-2c-2.28 0-4.22-1.06-5.5-2.68C16.22 10.94 14.28 12 12 12zm0 6c-2.28 0-4.22-1.06-5.5-2.68C5.22 16.94 3.28 18 1 18v2c2.28 0 4.22-1.06 5.5-2.68C7.78 18.94 9.72 20 12 20s4.22-1.06 5.5-2.68C18.78 18.94 20.72 20 23 20v-2c-2.28 0-4.22-1.06-5.5-2.68C16.22 16.94 14.28 18 12 18z"/>',
+        snow: '<path d="M22 11h-4.17l3.24-3.24-1.41-1.42L15 11h-2V9l4.66-4.66-1.42-1.41L13 6.17V2h-2v4.17L7.76 2.93 6.34 4.34 11 9v2H9L4.34 6.34 2.93 7.76 6.17 11H2v2h4.17l-3.24 3.24 1.41 1.42L9 13h2v2l-4.66 4.66 1.42 1.41L11 17.83V22h2v-4.17l3.24 3.24 1.42-1.41L13 15v-2h2l4.66 4.66 1.41-1.42L17.83 13H22z"/>',
+        wind: '<path d="M2.5 11h14.5c1.1 0 2-.9 2-2s-.9-2-2-2h-3v-2h3c2.21 0 4 1.79 4 4s-1.79 4-4 4H2.5v-2zM2.5 15h11.5c1.1 0 2 .9 2 2s-.9 2-2 2h-1v2h1c2.21 0 4-1.79 4-4s-1.79-4-4-4H2.5v2zm0-8h7.5c1.1 0 2-.9 2-2s-.9-2-2-2h-2v-2h2c2.21 0 4 1.79 4 4s-1.79 4-4 4H2.5v-2z"/>',
+        heat: '<path d="M15 13V5c0-1.66-1.34-3-3-3S9 3.34 9 5v8c-1.21.91-2 2.37-2 4 0 2.76 2.24 5 5 5s5-2.24 5-5c0-1.63-.79-3.09-2-4zm-4-2V5c0-.55.45-1 1-1s1 .45 1 1v1h-1v1h1v2h-1v1h1v1.28c-.6.35-1 .98-1 1.72 0 1.1.9 2 2 2s2-.9 2-2c0-.74-.4-1.38-1-1.72V11h-2z"/>'
+    };
+
+
+    function initProSuite() {
+      const bgLayer = document.getElementById('bgLayer');
+      if(bgLayer) bgLayer.style.backgroundImage = DEF_BG;
+      fit(); window.addEventListener('resize', fit);
+    }
+
+    function fit() {
+      const stage = document.querySelector('.ps-stage');
+      const board = document.getElementById('artboard');
+      if(!stage || !board) return;
+      const w = board.offsetWidth, h = board.offsetHeight;
+      const scale = Math.min((stage.clientWidth - 80)/w, (stage.clientHeight - 80)/h);
+      board.style.transform = `scale(${scale})`;
+    }
+
+    function setSize() {
+      const s = document.getElementById('inp-size').value;
+      const b = document.getElementById('artboard');
+      b.setAttribute('data-format', s);
+      if(s === 'sq') { b.style.width = '1080px'; b.style.height = '1080px'; document.getElementById('dim-disp').innerText = "1080 x 1080 (Square)"; }
+      else if(s === 'port') { b.style.width = '1080px'; b.style.height = '1920px'; document.getElementById('dim-disp').innerText = "1080 x 1920 (Portrait)"; }
+      else if(s === 'news') { b.style.width = '565px'; b.style.height = '375px'; document.getElementById('dim-disp').innerText = "565 x 375 (News Flash)"; }
+      setTimeout(fit, 310);
+    }
+
+    function setTpl(id, el) {
+      currentTpl = id;
+      document.querySelectorAll('.tpl-btn').forEach(b => b.classList.remove('active', 'active-alert'));
+      
+      if (id.startsWith('a')) {
+        el.classList.add('active-alert');
+        document.getElementById('icon-control').classList.remove('hidden');
+        document.getElementById('inp-script').parentElement.style.display = 'none'; 
+        updateAlert();
+      } else {
+        el.classList.add('active');
+        document.getElementById('icon-control').classList.add('hidden');
+        document.getElementById('inp-script').parentElement.style.display = 'block';
+        document.querySelector('.tint-layer').style.background = 'transparent';
+        document.getElementById('iconWrap').style.display = 'none';
+      }
+
+      if (id === 't3') {
+        document.getElementById('inp-stat').classList.remove('hidden');
+        document.getElementById('out-stat').classList.remove('hidden');
+      } else {
+        document.getElementById('inp-stat').classList.add('hidden');
+        document.getElementById('out-stat').classList.add('hidden');
+      }
+
+      if (id === 'a2') {
+        document.getElementById('tickerBox').classList.remove('hidden');
+        document.getElementById('main-content').classList.add('hidden');
+      } else {
+        document.getElementById('tickerBox').classList.add('hidden');
+        document.getElementById('main-content').classList.remove('hidden');
+      }
+
+      document.getElementById('artboard').setAttribute('data-tpl', id);
+      updateContent();
+    }
+
+    function updateAlert() {
+      const type1 = document.getElementById('inp-icon').value;
+      let color = '#D32F2F'; // Default Fire
+      
+      if(type1 === 'power') color = '#455A64';
+      if(type1 === 'flood') color = '#0288D1';
+      if(type1 === 'snow') color = '#90CAF9';
+      if(type1 === 'wind') color = '#F57C00'; 
+      if(type1 === 'heat') color = '#FF6D00';
+      
+      const b = document.getElementById('artboard');
+      b.style.setProperty('--accent', color);
+      document.querySelector('.ps-wrapper').style.setProperty('--ps-alert-red', color);
+      document.querySelector('.tint-layer').style.background = 'rgba(0,0,0,0.85)';
+
+      const wrap = document.getElementById('iconWrap');
+      wrap.innerHTML = ''; 
+      wrap.style.display = 'flex'; 
+
+      if(iconBank[type1]) {
+          wrap.innerHTML += `<svg viewBox="0 0 24 24">${iconBank[type1]}</svg>`;
+      }
+    }
+
+    function updateContent() {
+      const font = document.getElementById('inp-font').value;
+      const b = document.getElementById('artboard');
+      b.style.setProperty('--font-head', font === 'Bebas Neue' ? 'Bebas Neue' : (font === 'Playfair Display' ? 'Playfair Display' : (font === 'Roboto Mono' ? 'Roboto Mono' : (font === 'Montserrat' ? 'Montserrat' : 'Libre Franklin'))));
+      b.style.setProperty('--font-body', font === 'Roboto Mono' ? 'Roboto Mono' : 'Libre Franklin');
+
+      document.getElementById('out-eye').innerText = document.getElementById('inp-eye').value;
+      document.getElementById('out-eye-ticker').innerText = document.getElementById('inp-eye').value;
+      document.getElementById('out-head').innerHTML = document.getElementById('inp-head').value.replace(/\n/g, '<br>');
+      document.getElementById('out-head-ticker').innerHTML = document.getElementById('inp-head').value.replace(/\n/g, '  //  ');
+      document.getElementById('out-body').innerText = document.getElementById('inp-body').value;
+      document.getElementById('out-script').innerText = document.getElementById('inp-script').value;
+      document.getElementById('out-stat').innerText = document.getElementById('inp-stat').value;
+    }
+
+    function updateAccentFont() {
+      const font = document.getElementById('inp-accent').value;
+      const script = document.getElementById('out-script');
+      script.style.fontFamily = font;
+      script.style.fontStyle = font.includes('Libre') ? 'italic' : 'normal';
+      script.style.letterSpacing = font.includes('Libre') ? '1px' : 'normal';
+    }
+
+    function setColor(hex, el) {
+      document.getElementById('artboard').style.setProperty('--accent', hex);
+      if(currentTpl.startsWith('a')) document.querySelector('.ps-wrapper').style.setProperty('--ps-alert-red', hex);
+      document.querySelectorAll('.ps-swatch').forEach(s => s.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    // Logo Handlers
+    function toggleLogo() { 
+        const l = document.getElementById('logo'); 
+        l.style.display = l.style.display === 'none' ? 'block' : 'none'; 
+    }
+    function togglePartnerLogo() { 
+        const img = document.getElementById('logoAlt'); 
+        img.style.display = img.style.display === 'none' ? 'block' : 'none'; 
+    }
+    
+    function handleLogoUpload(e) {
+      const f = e.target.files[0];
+      if(f) { 
+          const r = new FileReader(); 
+          r.onload = (evt) => {
+              const l = document.getElementById('logo');
+              l.src = evt.target.result; 
+              l.style.display = 'block'; 
+          }; 
+          r.readAsDataURL(f); 
+      }
+    }
+    function handlePartnerLogoUpload(e) {
+      const f = e.target.files[0];
+      if(f) { 
+          const r = new FileReader(); 
+          r.onload = (evt) => { 
+              const img = document.getElementById('logoAlt'); 
+              img.src = evt.target.result; 
+              img.style.display = 'block'; 
+          }; 
+          r.readAsDataURL(f); 
+      }
+    }
+    
+    function updateLogoPos() {
+        document.getElementById('logo').style.transform = `translate(${document.getElementById('logoX').value}px, ${document.getElementById('logoY').value}px)`;
+        const logoAlt = document.getElementById('logoAlt');
+        if(logoAlt) logoAlt.style.transform = `translate(${document.getElementById('logoAltX').value}px, ${document.getElementById('logoAltY').value}px)`;
+    }
+
+    function updateLogoTint() {
+      const mode = document.getElementById('inp-tint').value, l = document.getElementById('logo');
+      l.style.filter = mode === 'white' ? 'brightness(0) invert(1)' : (mode === 'black' ? 'brightness(0)' : 'none');
+    }
+
+    function handleImage(e) {
+      const f = e.target.files[0];
+      if(f) { const r = new FileReader(); r.onload = (evt) => document.getElementById('bgLayer').style.backgroundImage = `url(${evt.target.result})`; r.readAsDataURL(f); }
+    }
+    function resetImg() { document.getElementById('bgLayer').style.backgroundImage = DEF_BG; document.getElementById('imgUpload').value = ''; }
+
+    function updateDeptTag() {
+        const type = document.getElementById('inp-dept-tag').value, tag = document.getElementById('deptTag'), textSpan = document.getElementById('tag-text');
+        tag.querySelectorAll('svg').forEach(i => i.classList.add('hidden'));
+        if(type === 'none') { tag.style.display = 'none'; return; }
+        
+        tag.style.display = 'inline-flex';
+        let labels = { parks: "Parks and Recreation", water: "Water and Utilities", arts: "Arts and Culture", library: "Public Library", police: "Public Safety", fire: "Fire and Rescue", finance: "Finance Dept", sustain: "Sustainability" };
+        textSpan.innerText = labels[type] || "DEPARTMENT";
+        const icon = document.getElementById('tag-icn-' + type);
+        if(icon) icon.classList.remove('hidden');
+    }
+    function toggleTagStyle() { document.getElementById('deptTag').classList.toggle('outline'); }
+
+    function generateAltText() {
+        const head = document.getElementById('inp-head').value, body = document.getElementById('inp-body').value, ctx = document.getElementById('inp-img-desc').value;
+        const resultBox = document.getElementById('alt-text-result');
+        resultBox.value = "Generating metadata...";
+        setTimeout(() => { resultBox.value = `Graphic for City of Lafayette. Headline reads: "${head.replace(/\n/g, ' ')}". Text: "${body}". Visuals: ${ctx}. Features city logo and brand colors.`; }, 800);
+    }
+
+    function downloadPS() {
+      const element = document.getElementById('artboard');
+      const originalTransform = element.style.transform;
+      let safeHead = document.getElementById('inp-head').value.replace(/[^a-zA-Z0-9]/g, '-').substring(0,20);
+      
+      element.style.transform = 'none'; window.scrollTo(0,0);
+      html2canvas(element, { scale: 1, useCORS: true, allowTaint: true, scrollX: 0, scrollY: 0, backgroundColor: null })
+      .then(canvas => {
+        element.style.transform = originalTransform;
+        const a = document.createElement('a'); a.download = `Lafayette-Asset-${safeHead}.png`; a.href = canvas.toDataURL('image/png'); a.click();
+      }).catch(err => { element.style.transform = originalTransform; alert("Download Error: " + err); });
+    }
+
+    /* --- INIT --- */
+    window.onload = () => {
+        const sel = document.getElementById('themeSelect');
+        PALETTES.forEach((p, i) => { const opt = document.createElement('option'); opt.value = i; opt.textContent = p.name; if(i === 0) opt.selected = true; sel.appendChild(opt); });
+        renderPalette(); updateLab(); generateQRCode(); initProSuite();
+    };
+
+</script>
+
+</body>
+</html>
