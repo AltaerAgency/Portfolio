@@ -3,352 +3,594 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sebastian Acevedo — Brand &amp; Communications</title>
+  <title>Sebastian Acevedo — Brand &amp; Communications Leader</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+
   <style>
+    /* ─────────────────────────────────────────
+       DESIGN TOKENS
+    ───────────────────────────────────────── */
+    :root {
+      --black:     #0a0a0a;
+      --gray-900:  #171717;
+      --gray-700:  #404040;
+      --gray-500:  #737373;
+      --gray-300:  #d4d4d4;
+      --gray-100:  #f5f5f5;
+      --white:     #ffffff;
+    }
+
+    /* ─────────────────────────────────────────
+       RESET / BASE
+    ───────────────────────────────────────── */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    :root {
-      --bg: #ffffff;
-      --text: #111111;
-      --secondary: #555555;
-      --light: #888888;
-      --label: #999999;
-      --max-width: 900px;
-    }
-
     html {
       scroll-behavior: smooth;
+      font-size: 16px;
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Lora', Georgia, serif;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
       font-size: 17px;
       line-height: 1.7;
+      color: var(--gray-700);
+      background: var(--black);
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.97);
-      border-bottom: 1px solid #e8e8e8;
-      padding: 18px 40px;
+    img, video {
+      display: block;
+      max-width: 100%;
     }
 
-    nav .nav-inner {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    nav .nav-name {
-      font-size: 15px;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      color: var(--text);
+    a {
+      color: inherit;
       text-decoration: none;
     }
 
-    nav .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-    }
-
-    nav .nav-links a {
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--label);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    nav .nav-links a:hover {
-      color: var(--text);
-    }
-
-    /* ── LAYOUT ── */
-    .container {
-      max-width: var(--max-width);
+    /* ─────────────────────────────────────────
+       LAYOUT HELPERS
+    ───────────────────────────────────────── */
+    .inner {
+      max-width: 1200px;
       margin: 0 auto;
       padding: 0 40px;
     }
 
     section {
-      padding: 100px 0;
+      scroll-margin-top: 60px;
     }
 
-    .section-label {
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--label);
-      margin-bottom: 60px;
-      font-style: normal;
-      font-family: 'Lora', Georgia, serif;
-    }
-
-    /* ── HERO ── */
-    #hero {
-      padding: 120px 0 100px;
-    }
-
-    .hero-name {
-      font-size: clamp(48px, 8vw, 80px);
-      font-weight: 500;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      margin-bottom: 28px;
-      color: var(--text);
-    }
-
-    .hero-tagline {
-      font-size: 22px;
-      font-weight: 400;
-      font-style: italic;
-      color: var(--secondary);
-      margin-bottom: 36px;
-      line-height: 1.4;
-    }
-
-    .hero-bio {
-      font-size: 17px;
-      color: var(--secondary);
-      max-width: 620px;
-      line-height: 1.75;
-    }
-
-    .hero-bio p + p {
-      margin-top: 16px;
-    }
-
-    /* ── CASE STUDIES ── */
-    #work {
-      border-top: 1px solid #e8e8e8;
-    }
-
-    .case-study {
-      padding: 80px 0;
-      border-bottom: 1px solid #e8e8e8;
-    }
-
-    .case-study:last-child {
-      border-bottom: none;
-    }
-
-    .case-header {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      margin-bottom: 60px;
-      align-items: start;
-    }
-
-    .case-number {
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--label);
-      margin-bottom: 20px;
-      display: block;
-    }
-
-    .case-title {
-      font-size: 30px;
-      font-weight: 500;
-      line-height: 1.2;
-      margin-bottom: 0;
-      color: var(--text);
-    }
-
-    .case-context {
-      font-size: 16px;
-      color: var(--secondary);
-      line-height: 1.75;
-    }
-
-    .case-outcome {
-      display: inline-block;
-      margin-top: 28px;
+    /* ─────────────────────────────────────────
+       TYPOGRAPHY SYSTEM
+    ───────────────────────────────────────── */
+    .label {
       font-size: 11px;
-      letter-spacing: 2px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--label);
-      border-top: 1px solid #e0e0e0;
-      padding-top: 16px;
+      color: var(--gray-500);
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .display-headline {
+      font-weight: 900;
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+    }
+
+    .body-copy {
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--gray-700);
+    }
+
+    .meta {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--gray-500);
+    }
+
+    .caption {
+      font-size: 12px;
+      color: var(--gray-500);
+      letter-spacing: 0.05em;
+      margin-top: 8px;
+      text-transform: uppercase;
+    }
+
+    /* ─────────────────────────────────────────
+       VIDEO
+    ───────────────────────────────────────── */
+    video {
       width: 100%;
+      display: block;
+      background: #000;
     }
 
-    /* ── VIDEO ── */
-    .video-grid {
-      display: grid;
-      gap: 20px;
+    /* ─────────────────────────────────────────
+       NAVIGATION
+    ───────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: 60px;
+      background: var(--black);
+      display: flex;
+      align-items: center;
     }
 
-    .video-grid.single {
-      grid-template-columns: 1fr;
+    .nav__inner {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .video-grid.triple {
-      grid-template-columns: 1fr 1fr 1fr;
+    .nav__logo {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.05em;
     }
 
-    .video-wrap {
+    .nav__links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav__links a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-300);
+      transition: color 0.2s;
+    }
+
+    .nav__links a:hover {
+      color: var(--white);
+    }
+
+    /* ─────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────── */
+    .hero {
+      background: var(--black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 60px;
       position: relative;
-      background: #f5f5f5;
     }
 
-    .video-wrap video {
+    .hero__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
       width: 100%;
-      max-height: 400px;
+    }
+
+    .hero__label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 48px;
+    }
+
+    .hero__name {
+      font-size: clamp(72px, 12vw, 160px);
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      color: var(--white);
+      margin-bottom: 48px;
+    }
+
+    .hero__tagline {
+      font-size: clamp(16px, 2vw, 22px);
+      font-weight: 300;
+      color: var(--gray-300);
+      letter-spacing: -0.01em;
+    }
+
+    .hero__arrow {
+      position: absolute;
+      bottom: 48px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--gray-500);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      animation: arrowBounce 2s ease-in-out infinite;
+    }
+
+    .hero__arrow svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--gray-500);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    @keyframes arrowBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ─────────────────────────────────────────
+       WORK SECTION — WRAPPER
+    ───────────────────────────────────────── */
+    .work {
+      background: var(--white);
+    }
+
+    .work__opener {
+      padding: 120px 0 80px;
+    }
+
+    .work__opener .label {
+      font-size: 13px;
+    }
+
+    /* ─────────────────────────────────────────
+       CASE STUDY — SHARED
+    ───────────────────────────────────────── */
+    .case {
+      padding: 120px 0;
+    }
+
+    .case--dark {
+      background: var(--gray-900);
+    }
+
+    .case--light-gray {
+      background: var(--gray-100);
+    }
+
+    .case--white {
+      background: var(--white);
+    }
+
+    /* 2-column header row */
+    .case-header {
+      display: flex;
+      gap: 80px;
+      align-items: flex-start;
+      margin-bottom: 80px;
+    }
+
+    .case-header__left {
+      flex: 0 0 60%;
+    }
+
+    .case-header__right {
+      flex: 0 0 calc(40% - 80px);
+    }
+
+    .case-headline {
+      font-size: clamp(48px, 6vw, 72px);
+      font-weight: 900;
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      margin-bottom: 32px;
+      margin-top: 24px;
+    }
+
+    .case-body {
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--gray-700);
+      max-width: 560px;
+    }
+
+    /* Right column details */
+    .outcome-block {
+      margin-bottom: 32px;
+    }
+
+    .outcome-block .label {
+      margin-bottom: 10px;
+    }
+
+    .outcome-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .outcome-sub {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--gray-500);
+      margin-bottom: 4px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--gray-300);
+      margin: 20px 0;
+    }
+
+    .divider--dark {
+      border-top-color: var(--gray-700);
+    }
+
+    .detail-list {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--gray-500);
+      line-height: 1.8;
+    }
+
+    /* ─────────────────────────────────────────
+       CASE 01 — MEDIA BLOCKS
+    ───────────────────────────────────────── */
+    .media-block {
+      margin-bottom: 40px;
+    }
+
+    .media-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .main-video {
+      width: 100%;
+      height: 700px;
       object-fit: cover;
-      display: block;
+      background: #000;
     }
 
-    /* ── BRAND ASSETS ── */
-    .brand-assets {
-      margin-top: 40px;
-      display: grid;
-      gap: 20px;
-    }
-
-    .brand-assets .hub-image {
+    .hub-image {
       width: 100%;
-      display: block;
-      border: 1px solid #e8e8e8;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
     }
 
     .ebike-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 12px;
-      margin-top: 20px;
     }
 
     .ebike-grid img {
       width: 100%;
-      aspect-ratio: 1;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+    }
+
+    /* ─────────────────────────────────────────
+       CASE 02 — DARK OVERRIDES
+    ───────────────────────────────────────── */
+    .case--dark .case-body {
+      color: var(--gray-300);
+    }
+
+    .case--dark .case-headline {
+      color: var(--white);
+    }
+
+    .case--dark .outcome-title {
+      color: var(--white);
+    }
+
+    .case--dark .detail-list {
+      color: var(--gray-300);
+    }
+
+    .case--dark .outcome-sub {
+      color: var(--gray-300);
+    }
+
+    /* Video grid — 3 columns */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .video-item video {
+      height: 420px;
+      object-fit: cover;
+    }
+
+    /* ─────────────────────────────────────────
+       CASE 03 — LIGHT GRAY OVERRIDES
+    ───────────────────────────────────────── */
+    .case--light-gray .case-body {
+      color: var(--gray-700);
+    }
+
+    .case--light-gray .case-headline {
+      color: var(--black);
+    }
+
+    /* ─────────────────────────────────────────
+       PHOTOGRAPHY
+    ───────────────────────────────────────── */
+    .photography {
+      background: var(--black);
+      padding: 120px 0;
+    }
+
+    .photography__intro {
+      margin-bottom: 80px;
+    }
+
+    .photography__headline {
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 900;
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      color: var(--white);
+      margin-top: 20px;
+    }
+
+    /* Masonry photo grid — 2 columns */
+    .photo-grid {
+      columns: 2;
+      column-gap: 16px;
+    }
+
+    .photo-grid__item {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .photo-grid__item--tall img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
       object-fit: cover;
       display: block;
     }
 
-    /* ── PHOTOGRAPHY ── */
-    #photography {
-      border-top: 1px solid #e8e8e8;
-    }
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .photo-grid img {
+    .photo-grid__item--wide img {
       width: 100%;
       aspect-ratio: 4 / 3;
       object-fit: cover;
       display: block;
     }
 
-    /* ── FOOTER / CONTACT ── */
-    #contact {
-      border-top: 1px solid #e8e8e8;
-      padding: 100px 0 80px;
+    /* ─────────────────────────────────────────
+       CONTACT / FOOTER
+    ───────────────────────────────────────── */
+    .contact {
+      background: var(--black);
+      padding: 120px 0 0;
     }
 
-    .contact-name {
-      font-size: 28px;
-      font-weight: 500;
-      margin-bottom: 24px;
-      color: var(--text);
+    .contact__headline {
+      font-size: clamp(48px, 8vw, 120px);
+      font-weight: 900;
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      color: var(--white);
+      margin-bottom: 64px;
     }
 
-    .contact-links {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .contact-links a {
-      font-size: 16px;
-      color: var(--secondary);
-      text-decoration: none;
+    .contact__email {
+      display: block;
+      font-size: clamp(22px, 3vw, 36px);
+      font-weight: 300;
+      color: var(--gray-300);
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
       transition: color 0.2s;
     }
 
-    .contact-links a:hover {
-      color: var(--text);
+    .contact__email:hover {
+      color: var(--white);
     }
 
-    .footer-bottom {
-      margin-top: 80px;
-      padding-top: 28px;
-      border-top: 1px solid #e8e8e8;
-      font-size: 12px;
-      color: var(--light);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .contact__phone {
+      display: block;
+      font-size: clamp(18px, 2.5vw, 28px);
+      font-weight: 300;
+      color: var(--gray-500);
+      letter-spacing: -0.01em;
+      margin-bottom: 120px;
     }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 700px) {
-      nav {
-        padding: 16px 24px;
-      }
+    .footer-strip {
+      border-top: 1px solid var(--gray-900);
+      padding: 32px 0;
+    }
 
-      .container {
+    .footer-strip p {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--gray-500);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .inner,
+      .nav__inner,
+      .hero__inner {
         padding: 0 24px;
       }
 
-      section {
-        padding: 72px 0;
-      }
-
       .case-header {
-        grid-template-columns: 1fr;
-        gap: 32px;
+        flex-direction: column;
+        gap: 48px;
       }
 
-      .video-grid.triple {
+      .case-header__left,
+      .case-header__right {
+        flex: none;
+        width: 100%;
+      }
+
+      .video-grid {
         grid-template-columns: 1fr;
       }
 
       .ebike-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .photo-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      nav .nav-links {
-        gap: 20px;
+      .photo-grid {
+        columns: 1;
+      }
+
+      .main-video {
+        height: auto;
+      }
+
+      .video-item video {
+        height: auto;
+      }
+
+      .nav__links {
+        gap: 24px;
       }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-inner">
-      <a href="#hero" class="nav-name">Sebastian Acevedo</a>
-      <ul class="nav-links">
+  <!-- ════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════ -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <span class="nav__logo">SA</span>
+      <ul class="nav__links">
         <li><a href="#work">Work</a></li>
         <li><a href="#photography">Photography</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -356,166 +598,372 @@
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="container">
-      <h1 class="hero-name">Sebastian<br />Acevedo</h1>
-      <p class="hero-tagline">Brand &amp; Communications Leader &mdash; 10+ years building the systems behind the story.</p>
-      <div class="hero-bio">
-        <p>I build brands from scratch and run communications departments that actually function &mdash; voice frameworks, asset systems, campaign strategies, and the editorial discipline that keeps it all coherent. From broadcast television to city government to bilingual campaigns, the work holds up because it starts with a clear point of view.</p>
-        <p>Bilingual (EN/ES). Two Emmy Awards. Based in Colorado.</p>
-      </div>
+
+  <!-- ════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════ -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero__inner">
+      <p class="hero__label">Brand &amp; Communications Leader</p>
+      <h1 class="hero__name">
+        Sebastian<br>Acevedo
+      </h1>
+      <p class="hero__tagline">10 years. Two Emmys. Built from scratch.</p>
     </div>
+
+    <a href="#work" class="hero__arrow" aria-label="Scroll to work">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </a>
   </section>
 
-  <!-- CASE STUDIES -->
-  <section id="work">
-    <div class="container">
-      <p class="section-label">Selected Work</p>
 
-      <!-- CASE 01 -->
-      <div class="case-study">
-        <div class="case-header">
-          <div class="case-left">
-            <span class="case-number">Case Study 01</span>
-            <h2 class="case-title">City of Lafayette:<br />Brand System</h2>
-          </div>
-          <div class="case-context">
-            <p>Walking into a city government with no shared identity and building the entire communications infrastructure from scratch &mdash; voice guidelines, messaging frameworks, a digital asset library, and an interactive brand hub that every department now uses. Then using that system to launch &ldquo;Somos Lafayette,&rdquo; a bilingual community identity campaign that gave the city a real public voice for the first time.</p>
-            <span class="case-outcome">Emmy Award 2023 &middot; Promotion Image: Campaign</span>
-          </div>
-        </div>
+  <!-- ════════════════════════════════════════
+       WORK SECTION
+  ════════════════════════════════════════ -->
+  <div id="work" class="work">
 
-        <!-- Somos Lafayette launch video -->
-        <div class="video-grid single">
-          <div class="video-wrap">
-            <video controls preload="none"
-              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/00_Somos_Lafayette_launch_video_Eng_pvdgsi.jpg">
-              <source src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/00_Somos_Lafayette_launch_video_Eng_pvdgsi.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
-
-        <!-- Lafayette Brand Hub screenshot -->
-        <div class="brand-assets">
-          <img class="hub-image" src="assets/brand/Lafayette_Hub.png" alt="Lafayette Brand Hub — interactive digital asset library and brand guidelines portal" loading="lazy" />
-        </div>
-
-        <!-- E-Bike Socials grid -->
-        <div class="ebike-grid">
-          <img src="assets/brand/E-Bike Socials-01.png" alt="Lafayette E-Bike Program social content 1" loading="lazy" />
-          <img src="assets/brand/E-Bike Socials-02.png" alt="Lafayette E-Bike Program social content 2" loading="lazy" />
-          <img src="assets/brand/E-Bike Socials-03.png" alt="Lafayette E-Bike Program social content 3" loading="lazy" />
-          <img src="assets/brand/E-Bike Socials-04.png" alt="Lafayette E-Bike Program social content 4" loading="lazy" />
-          <img src="assets/brand/E-Bike Socials-05.png" alt="Lafayette E-Bike Program social content 5" loading="lazy" />
-        </div>
+    <!-- Work opener label -->
+    <div class="work__opener">
+      <div class="inner">
+        <span class="label">Selected Work — 3 Cases</span>
       </div>
-
-      <!-- CASE 02 -->
-      <div class="case-study">
-        <div class="case-header">
-          <div class="case-left">
-            <span class="case-number">Case Study 02</span>
-            <h2 class="case-title">Broadcast Storytelling:<br />NBCUniversal &amp; Univision</h2>
-          </div>
-          <div class="case-context">
-            <p>Five years of high-stakes broadcast work &mdash; national network promos, sports campaigns, brand identity spots. Fast deadlines, high visibility, no margin for error. The kind of environment where story structure and tone either hold or they don&rsquo;t. These spots ran on-air at NBCUniversal and Univision, and they were built to land.</p>
-            <span class="case-outcome">Two Emmy Awards &middot; 2023 &middot; News Promotion Image + Promotion Image Campaign</span>
-          </div>
-        </div>
-
-        <div class="video-grid triple">
-          <div class="video-wrap">
-            <video controls preload="none"
-              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/04_AVS_POP_DIRECTOR_S_CUT_ypbgh0.jpg">
-              <source src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/04_AVS_POP_DIRECTOR_S_CUT_ypbgh0.mp4" type="video/mp4" />
-            </video>
-          </div>
-          <div class="video-wrap">
-            <video controls preload="none"
-              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/05_Telemundo_Colorado_siempre_contigo_ysa6w7.jpg">
-              <source src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/05_Telemundo_Colorado_siempre_contigo_ysa6w7.mp4" type="video/mp4" />
-            </video>
-          </div>
-          <div class="video-wrap">
-            <video controls preload="none"
-              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/01_SOCCER_PROMO_TRI_ctjswh.jpg">
-              <source src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/01_SOCCER_PROMO_TRI_ctjswh.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
-      </div>
-
-      <!-- CASE 03 -->
-      <div class="case-study">
-        <div class="case-header">
-          <div class="case-left">
-            <span class="case-number">Case Study 03</span>
-            <h2 class="case-title">Bilingual Campaigns:<br />Hispanic Audience Work</h2>
-          </div>
-          <div class="case-context">
-            <p>Spanish-speaking audiences don&rsquo;t just decode messages &mdash; they read intent. A campaign that&rsquo;s translated but not actually built for the culture fails on contact. From sports identity to talent showcases to social content, this work was built around cultural fluency, not reach metrics. It shows in the writing, in the casting, in the pacing.</p>
-            <span class="case-outcome">Univision &middot; Telemundo &middot; Bilingual Campaigns</span>
-          </div>
-        </div>
-
-        <div class="video-grid triple">
-          <div class="video-wrap">
-            <video controls preload="none"
-              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/02_SOCCER__SOLEDAD__TRI_2_v1kul0.jpg">
-              <source src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/02_SOCCER__SOLEDAD__TRI_2_v1kul0.mp4" type="video/mp4" />
-            </video>
-          </div>
-          <div class="video-wrap">
-            <video controls preload="none"
-              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/06_TALENT_STEPHANIE_feoqhl.jpg">
-              <source src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/06_TALENT_STEPHANIE_feoqhl.mp4" type="video/mp4" />
-            </video>
-          </div>
-          <div class="video-wrap">
-            <video controls preload="none"
-              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/1_Facebook_Post_ulm6ce.jpg">
-              <source src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/1_Facebook_Post_ulm6ce.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </section>
 
-  <!-- PHOTOGRAPHY -->
-  <section id="photography">
-    <div class="container">
-      <p class="section-label">Photography</p>
+
+    <!-- ──────────────────────────────────────
+         CASE 01 — City of Lafayette
+    ────────────────────────────────────── -->
+    <section class="case case--white" aria-label="Case Study 01">
+      <div class="inner">
+
+        <!-- 2-col header -->
+        <div class="case-header">
+
+          <div class="case-header__left">
+            <span class="label">Case Study — 01</span>
+            <h2 class="case-headline">
+              Building a City's<br>
+              Brand Voice<br>
+              From Nothing.
+            </h2>
+            <p class="case-body">
+              The City of Lafayette had no shared identity. Different departments, different voices, no system anyone could actually hand off. I built the infrastructure — voice guidelines, messaging frameworks, content templates, and an interactive brand hub that every department now uses. Then we launched Somos Lafayette, a bilingual identity campaign that gave the city something to rally around.
+            </p>
+          </div>
+
+          <div class="case-header__right">
+            <div class="outcome-block">
+              <span class="label">Outcome</span>
+              <p class="outcome-title">Emmy Award · 2023</p>
+              <p class="outcome-sub">Promotion Image: Campaign</p>
+            </div>
+
+            <hr class="divider" />
+
+            <div class="outcome-block">
+              <span class="label">Deliverables</span>
+              <p class="detail-list">
+                Brand System · Voice Guidelines · Digital Asset Library<br>
+                Lafayette Brand Hub · Bilingual Campaigns
+              </p>
+            </div>
+
+            <div class="outcome-block">
+              <span class="label">Client</span>
+              <p class="detail-list">City of Lafayette, CO · 2023–Present</p>
+            </div>
+          </div>
+
+        </div><!-- /case-header -->
+
+        <!-- Main launch video -->
+        <div class="media-block">
+          <video
+            controls
+            preload="none"
+            poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_1200,q_80/00_Somos_Lafayette_launch_video_Eng_pvdgsi.jpg"
+            src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/00_Somos_Lafayette_launch_video_Eng_pvdgsi.mp4"
+            class="main-video"
+            aria-label="Somos Lafayette brand launch film">
+          </video>
+          <p class="caption">Somos Lafayette — Brand Launch Film</p>
+        </div>
+
+        <!-- Brand Hub screenshot -->
+        <div class="media-block">
+          <img
+            src="assets/brand/Lafayette_Hub.png"
+            alt="Lafayette Brand Hub — Interactive brand guidelines portal"
+            class="hub-image"
+            loading="lazy"
+          />
+          <p class="caption">Lafayette Brand Hub — Interactive brand guidelines portal built for city staff</p>
+        </div>
+
+        <!-- E-Bike socials grid -->
+        <div class="media-block">
+          <div class="ebike-grid">
+            <img src="assets/brand/E-Bike Socials-01.png" alt="E-Bike Social 01" loading="lazy" />
+            <img src="assets/brand/E-Bike Socials-02.png" alt="E-Bike Social 02" loading="lazy" />
+            <img src="assets/brand/E-Bike Socials-03.png" alt="E-Bike Social 03" loading="lazy" />
+            <img src="assets/brand/E-Bike Socials-04.png" alt="E-Bike Social 04" loading="lazy" />
+            <img src="assets/brand/E-Bike Socials-05.png" alt="E-Bike Social 05" loading="lazy" />
+          </div>
+          <p class="caption">E-Bike Program — Social Content Series</p>
+        </div>
+
+      </div><!-- /inner -->
+    </section><!-- /case 01 -->
+
+
+    <!-- ──────────────────────────────────────
+         CASE 02 — Broadcast
+    ────────────────────────────────────── -->
+    <section class="case case--dark" aria-label="Case Study 02">
+      <div class="inner">
+
+        <!-- 2-col header -->
+        <div class="case-header">
+
+          <div class="case-header__left">
+            <span class="label">Case Study — 02</span>
+            <h2 class="case-headline">
+              Broadcast.<br>
+              National Stage.<br>
+              No Shortcuts.
+            </h2>
+            <p class="case-body">
+              Five years in broadcast. NBCUniversal and Univision. Fast turnarounds, national audiences, and a standard that doesn't forgive mediocrity. At Univision I led Spanish-language brand and promotional creative for a market that reads through anything inauthentic. At NBCUniversal I ran promotional storytelling for one of the country's largest networks. The Emmys followed.
+            </p>
+          </div>
+
+          <div class="case-header__right">
+            <div class="outcome-block">
+              <span class="label">Outcome</span>
+              <p class="outcome-title">Two Emmy Awards · 2023</p>
+              <p class="outcome-sub">News Promotion Image: Single Spot</p>
+              <p class="outcome-sub">Promotion Image: Campaign</p>
+              <p class="outcome-sub" style="color: var(--gray-300); margin-top: 8px;">CBA Awards of Excellence · 2023</p>
+            </div>
+
+            <hr class="divider divider--dark" />
+
+            <div class="outcome-block">
+              <span class="label">Roles</span>
+              <p class="detail-list">
+                Creative Services Manager · NBCUniversal · 2022–2023<br>
+                Creative Services Manager · Univision · 2018–2022
+              </p>
+            </div>
+          </div>
+
+        </div><!-- /case-header -->
+
+        <!-- 3-column video grid -->
+        <div class="video-grid">
+
+          <div class="video-item">
+            <video
+              controls
+              preload="none"
+              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/04_AVS_POP_DIRECTOR_S_CUT_ypbgh0.jpg"
+              src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/04_AVS_POP_DIRECTOR_S_CUT_ypbgh0.mp4"
+              aria-label="AVS Pop Director's Cut">
+            </video>
+            <p class="caption">AVS Pop — Director's Cut</p>
+          </div>
+
+          <div class="video-item">
+            <video
+              controls
+              preload="none"
+              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/05_Telemundo_Colorado_siempre_contigo_ysa6w7.jpg"
+              src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/05_Telemundo_Colorado_siempre_contigo_ysa6w7.mp4"
+              aria-label="Telemundo Colorado Siempre Contigo">
+            </video>
+            <p class="caption">Telemundo Colorado — Siempre Contigo</p>
+          </div>
+
+          <div class="video-item">
+            <video
+              controls
+              preload="none"
+              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/01_SOCCER_PROMO_TRI_ctjswh.jpg"
+              src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/01_SOCCER_PROMO_TRI_ctjswh.mp4"
+              aria-label="Soccer Promo TRI">
+            </video>
+            <p class="caption">Soccer Promo — TRI</p>
+          </div>
+
+        </div><!-- /video-grid -->
+
+      </div><!-- /inner -->
+    </section><!-- /case 02 -->
+
+
+    <!-- ──────────────────────────────────────
+         CASE 03 — Cultural Fluency
+    ────────────────────────────────────── -->
+    <section class="case case--light-gray" aria-label="Case Study 03">
+      <div class="inner">
+
+        <!-- 2-col header -->
+        <div class="case-header">
+
+          <div class="case-header__left">
+            <span class="label">Case Study — 03</span>
+            <h2 class="case-headline">
+              Fluency.<br>
+              Not Translation.
+            </h2>
+            <p class="case-body">
+              Spanish-speaking audiences don't just decode messages — they read intent. A campaign built by someone who doesn't understand the culture fails on contact. I spent years building campaigns that knew the difference: the Herencia Hispana series, sports identity spots, social content, and talent showcases that spoke to who the audience actually is.
+            </p>
+          </div>
+
+          <div class="case-header__right">
+            <div class="outcome-block">
+              <span class="label">Outcome</span>
+              <p class="outcome-title">Cultural campaigns that connected</p>
+            </div>
+
+            <hr class="divider" />
+
+            <div class="outcome-block">
+              <span class="label">Platforms</span>
+              <p class="detail-list">Univision · Telemundo · Social Media</p>
+            </div>
+
+            <div class="outcome-block">
+              <span class="label">Languages</span>
+              <p class="detail-list">English / Spanish</p>
+            </div>
+          </div>
+
+        </div><!-- /case-header -->
+
+        <!-- 3-column video grid -->
+        <div class="video-grid">
+
+          <div class="video-item">
+            <video
+              controls
+              preload="none"
+              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/02_SOCCER__SOLEDAD__TRI_2_v1kul0.jpg"
+              src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/02_SOCCER__SOLEDAD__TRI_2_v1kul0.mp4"
+              aria-label="Soccer La Soledad">
+            </video>
+            <p class="caption">Soccer — La Soledad</p>
+          </div>
+
+          <div class="video-item">
+            <video
+              controls
+              preload="none"
+              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/06_TALENT_STEPHANIE_feoqhl.jpg"
+              src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/06_TALENT_STEPHANIE_feoqhl.mp4"
+              aria-label="Talent Showcase Stephanie">
+            </video>
+            <p class="caption">Talent Showcase — Stephanie</p>
+          </div>
+
+          <div class="video-item">
+            <video
+              controls
+              preload="none"
+              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/1_Facebook_Post_ulm6ce.jpg"
+              src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/1_Facebook_Post_ulm6ce.mp4"
+              aria-label="Social Facebook Campaign">
+            </video>
+            <p class="caption">Social — Facebook Campaign</p>
+          </div>
+
+        </div><!-- /video-grid -->
+
+      </div><!-- /inner -->
+    </section><!-- /case 03 -->
+
+  </div><!-- /work -->
+
+
+  <!-- ════════════════════════════════════════
+       PHOTOGRAPHY
+  ════════════════════════════════════════ -->
+  <section id="photography" class="photography" aria-label="Photography">
+    <div class="inner">
+
+      <div class="photography__intro">
+        <span class="label">Photography</span>
+        <h2 class="photography__headline">The Lens.</h2>
+      </div>
+
+      <!-- Asymmetric 2-column masonry grid -->
       <div class="photo-grid">
-        <img src="assets/photos/TACO-59.jpg" alt="Taco photography" loading="lazy" />
-        <img src="assets/photos/TACO-76.jpg" alt="Taco photography" loading="lazy" />
-        <img src="assets/photos/MAMBOS_EXP-10.jpg" alt="Mambos experience photography" loading="lazy" />
-        <img src="assets/photos/MAMBOS_EXP-19.jpg" alt="Mambos experience photography" loading="lazy" />
-        <img src="assets/photos/Skincare-10.jpg" alt="Skincare product photography" loading="lazy" />
-        <img src="assets/photos/Skincare-12.jpg" alt="Skincare product photography" loading="lazy" />
-        <img src="assets/photos/Daily-Special-2.jpg" alt="Daily Special photography" loading="lazy" />
-        <img src="assets/photos/Daily-Special-7.jpg" alt="Daily Special photography" loading="lazy" />
-      </div>
-    </div>
-  </section>
 
-  <!-- CONTACT / FOOTER -->
-  <section id="contact">
-    <div class="container">
-      <p class="section-label">Contact</p>
-      <p class="contact-name">Sebastian Acevedo</p>
-      <div class="contact-links">
-        <a href="mailto:jseb.acevedo@gmail.com">jseb.acevedo@gmail.com</a>
-        <a href="tel:+19042388937">904-238-8937</a>
-      </div>
-      <div class="footer-bottom">
-        <span>&copy; 2026 Sebastian Acevedo</span>
-        <span>Brand &amp; Communications &mdash; Colorado</span>
+        <div class="photo-grid__item photo-grid__item--tall">
+          <img src="assets/photos/TACO-59.jpg" alt="Taco 59" loading="lazy" />
+        </div>
+
+        <div class="photo-grid__item photo-grid__item--wide">
+          <img src="assets/photos/MAMBOS_EXP-10.jpg" alt="Mambos Experience 10" loading="lazy" />
+        </div>
+
+        <div class="photo-grid__item photo-grid__item--wide">
+          <img src="assets/photos/Skincare-10.jpg" alt="Skincare 10" loading="lazy" />
+        </div>
+
+        <div class="photo-grid__item photo-grid__item--tall">
+          <img src="assets/photos/TACO-76.jpg" alt="Taco 76" loading="lazy" />
+        </div>
+
+        <div class="photo-grid__item photo-grid__item--tall">
+          <img src="assets/photos/Daily-Special-2.jpg" alt="Daily Special 2" loading="lazy" />
+        </div>
+
+        <div class="photo-grid__item photo-grid__item--wide">
+          <img src="assets/photos/MAMBOS_EXP-19.jpg" alt="Mambos Experience 19" loading="lazy" />
+        </div>
+
+        <div class="photo-grid__item photo-grid__item--wide">
+          <img src="assets/photos/Skincare-12.jpg" alt="Skincare 12" loading="lazy" />
+        </div>
+
+        <div class="photo-grid__item photo-grid__item--tall">
+          <img src="assets/photos/Daily-Special-7.jpg" alt="Daily Special 7" loading="lazy" />
+        </div>
+
+      </div><!-- /photo-grid -->
+
+    </div><!-- /inner -->
+  </section><!-- /photography -->
+
+
+  <!-- ════════════════════════════════════════
+       CONTACT / FOOTER
+  ════════════════════════════════════════ -->
+  <section id="contact" class="contact" aria-label="Contact">
+    <div class="inner">
+
+      <h2 class="contact__headline">Let's work.</h2>
+
+      <a href="mailto:jseb.acevedo@gmail.com" class="contact__email">
+        jseb.acevedo@gmail.com
+      </a>
+
+      <a href="tel:+19042388937" class="contact__phone">
+        904-238-8937
+      </a>
+
+    </div>
+
+    <div class="footer-strip">
+      <div class="inner">
+        <p>© 2026 Sebastian Acevedo — Colorado</p>
       </div>
     </div>
-  </section>
+  </section><!-- /contact -->
 
 </body>
 </html>
