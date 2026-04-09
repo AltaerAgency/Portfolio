@@ -376,6 +376,64 @@
       object-fit: cover;
     }
 
+    /* ─── Lafayette Hub live embed ─── */
+    .hub-block {
+      margin-bottom: 40px;
+    }
+
+    .hub-label-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .hub-label-row .label {
+      margin-bottom: 0;
+    }
+
+    .hub-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      border-bottom: 1px solid var(--black);
+      padding-bottom: 2px;
+      transition: opacity 0.2s;
+    }
+
+    .hub-cta:hover { opacity: 0.5; }
+
+    .hub-iframe-wrapper {
+      position: relative;
+      width: 100%;
+      height: 640px;
+      background: var(--gray-100);
+      overflow: hidden;
+      border: 1px solid var(--gray-300);
+    }
+
+    .hub-iframe-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* click-through overlay: remove if you want the iframe interactive inline */
+    .hub-iframe-overlay {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      z-index: 2;
+    }
+
     .ebike-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -691,15 +749,25 @@
           <p class="caption">Somos Lafayette — Brand Launch Film</p>
         </div>
 
-        <!-- Brand Hub screenshot -->
-        <div class="media-block">
-          <img
-            src="assets/brand/Lafayette_Hub.png"
-            alt="Lafayette Brand Hub — Interactive brand guidelines portal"
-            class="hub-image"
-            loading="lazy"
-          />
-          <p class="caption">Lafayette Brand Hub — Interactive brand guidelines portal built for city staff</p>
+        <!-- Lafayette Brand Hub — live interactive embed -->
+        <div class="hub-block">
+          <div class="hub-label-row">
+            <span class="label">Lafayette Brand Hub</span>
+            <a href="lafayette-hub.html" target="_blank" class="hub-cta">
+              Explore Full Hub &nbsp;↗
+            </a>
+          </div>
+          <div class="hub-iframe-wrapper">
+            <!-- Overlay makes the whole block a click-through to the full hub -->
+            <a href="lafayette-hub.html" target="_blank" class="hub-iframe-overlay" aria-label="Open Lafayette Brand Hub"></a>
+            <iframe
+              src="lafayette-hub.html"
+              title="Lafayette Brand Hub — interactive brand guidelines portal"
+              loading="lazy"
+              sandbox="allow-scripts allow-same-origin">
+            </iframe>
+          </div>
+          <p class="caption">Lafayette Brand Hub — voice guidelines, color systems, logo toolkit, and interactive templates. Built for city staff to use daily.</p>
         </div>
 
         <!-- E-Bike socials grid -->
