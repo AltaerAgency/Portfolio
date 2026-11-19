@@ -6,1032 +6,1188 @@
   <title>Sebastian Acevedo — Brand &amp; Communications Leader</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <style>
-    /* ─────────────────────────────────────────
-       DESIGN TOKENS
-    ───────────────────────────────────────── */
+    /* ─── TOKENS ─── */
     :root {
-      --black:     #1c1917;
-      --gray-900:  #292524;
-      --gray-700:  #57534e;
-      --gray-500:  #a8a29e;
-      --gray-300:  #d6d3d1;
-      --gray-100:  #f5f4f2;
-      --white:     #fafaf8;
+      --ink:       #111110;
+      --ink-soft:  #1a1918;
+      --warm-mid:  #252422;
+      --rule:      #2e2e2c;
+      --muted:     #6a6a68;
+      --light:     #b0aead;
+      --cream:     #f0ece5;
+      --white:     #f8f6f2;
+      --gold:      #c8912a;
+      --gold-soft: #a87520;
     }
 
-    /* ─────────────────────────────────────────
-       RESET / BASE
-    ───────────────────────────────────────── */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
-
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-weight: 400;
-      font-size: 17px;
-      line-height: 1.7;
-      color: var(--gray-700);
-      background: var(--black);
+      background: var(--ink);
+      color: var(--light);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+    img, video { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
 
-    img, video {
-      display: block;
-      max-width: 100%;
+    /* ─── GRAIN OVERLAY ─── */
+    .grain {
+      position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 48px;
+      background: transparent;
+      border-bottom: 1px solid var(--rule);
+      transition: background 0.3s ease;
     }
-
-    /* ─────────────────────────────────────────
-       LAYOUT HELPERS
-    ───────────────────────────────────────── */
-    .inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    section {
-      scroll-margin-top: 60px;
-    }
-
-    /* ─────────────────────────────────────────
-       TYPOGRAPHY SYSTEM
-    ───────────────────────────────────────── */
-    .label {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gray-500);
-      display: block;
-      margin-bottom: 16px;
-    }
-
-    .display-headline {
-      font-weight: 900;
-      line-height: 0.92;
-      letter-spacing: -0.03em;
-    }
-
-    .body-copy {
-      font-size: 17px;
-      font-weight: 400;
-      line-height: 1.7;
-      color: var(--gray-700);
-    }
-
-    .meta {
-      font-size: 14px;
-      font-weight: 300;
-      color: var(--gray-500);
-    }
-
-    .caption {
-      font-size: 12px;
-      color: var(--gray-500);
-      letter-spacing: 0.05em;
-      margin-top: 8px;
-      text-transform: uppercase;
-    }
-
-    /* ─────────────────────────────────────────
-       VIDEO
-    ───────────────────────────────────────── */
-    video {
-      width: 100%;
-      display: block;
-      background: #000;
-    }
-
-    /* ─────────────────────────────────────────
-       NAVIGATION
-    ───────────────────────────────────────── */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      height: 60px;
-      background: var(--black);
-      display: flex;
-      align-items: center;
-    }
-
-    .nav__inner {
-      max-width: 1200px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 0 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
+    nav.nav--scrolled { background: var(--ink); }
     .nav__logo {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: 0.05em;
+      font-family: 'Bebas Neue', sans-serif;
+      font-style: normal;
+      font-size: 22px;
+      letter-spacing: 0.08em;
+      color: var(--gold);
     }
-
-    .nav__links {
-      display: flex;
-      gap: 40px;
-      list-style: none;
-    }
-
+    .nav__links { display: flex; gap: 36px; }
     .nav__links a {
+      font-family: 'DM Sans', sans-serif;
       font-size: 13px;
       font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--gray-300);
+      color: var(--muted);
       transition: color 0.2s;
     }
+    .nav__links a:hover { color: var(--gold); }
+    .nav__links a.nav--active { color: var(--gold); }
 
-    .nav__links a:hover {
-      color: var(--white);
-    }
-
-    /* ─────────────────────────────────────────
-       HERO
-    ───────────────────────────────────────── */
-    .hero {
-      background: var(--black);
-      min-height: 100vh;
-      display: flex;
+    .nav__toggle {
+      display: none;
       flex-direction: column;
       justify-content: center;
-      padding-top: 60px;
+      gap: 5px;
+      width: 32px; height: 32px;
+      background: none; border: none; cursor: pointer;
+      padding: 0;
+    }
+    .nav__toggle span {
+      display: block; width: 100%; height: 2px;
+      background: var(--light);
+      transition: transform 0.25s ease, opacity 0.2s ease;
+    }
+    .nav__toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav__toggle.is-open span:nth-child(2) { opacity: 0; }
+    .nav__toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── CONTAINER ─── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      background: var(--ink);
+      display: flex; align-items: center;
+      padding: 120px 48px 80px;
       position: relative;
+      background-image: radial-gradient(ellipse 60% 50% at 10% 20%, rgba(255,255,255,0.018) 0%, transparent 70%);
     }
-
-    .hero__inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 40px;
-      width: 100%;
-    }
-
+    .hero__inner { max-width: 1200px; margin: 0 auto; width: 100%; }
     .hero__label {
-      font-size: 11px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
       font-weight: 500;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--gray-500);
-      margin-bottom: 48px;
+      color: var(--gold);
+      margin-bottom: 32px;
     }
-
     .hero__name {
-      font-size: clamp(72px, 12vw, 160px);
-      font-weight: 900;
-      line-height: 0.9;
-      letter-spacing: -0.04em;
-      color: var(--white);
-      margin-bottom: 48px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: clamp(80px, 13vw, 180px);
+      line-height: 0.88;
+      letter-spacing: 0.03em;
+      color: var(--cream);
     }
-
+    .hero__rule {
+      width: 60px; height: 2px;
+      background: var(--gold);
+      margin: 28px 0;
+    }
     .hero__tagline {
-      font-size: clamp(16px, 2vw, 22px);
+      font-family: 'DM Sans', sans-serif;
       font-weight: 300;
-      color: var(--gray-300);
-      letter-spacing: -0.01em;
+      font-size: 18px;
+      color: var(--light);
+      max-width: 420px;
+      line-height: 1.6;
     }
-
-    .hero__arrow {
+    .hero__scroll {
       position: absolute;
-      bottom: 48px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: var(--gray-500);
+      bottom: 40px; left: 48px;
+      font-family: 'DM Sans', sans-serif;
       font-size: 11px;
-      font-weight: 500;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      animation: arrowBounce 2s ease-in-out infinite;
+      color: var(--muted);
+      display: flex; align-items: center; gap: 10px;
     }
+    .hero__scroll svg { width: 14px; height: 14px; }
+    .hero__scroll { display: none; } /* replaced by the hero buttons */
 
-    .hero__arrow svg {
-      width: 20px;
-      height: 20px;
-      stroke: var(--gray-500);
-      fill: none;
-      stroke-width: 1.5;
-    }
-
-    @keyframes arrowBounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50%       { transform: translateX(-50%) translateY(8px); }
-    }
-
-    /* ─────────────────────────────────────────
-       WORK SECTION — WRAPPER
-    ───────────────────────────────────────── */
-    .work {
-      background: var(--white);
-    }
-
-    .work__opener {
-      padding: 120px 0 80px;
-    }
-
-    .work__opener .label {
-      font-size: 13px;
-    }
-
-    /* ─────────────────────────────────────────
-       CASE STUDY — SHARED
-    ───────────────────────────────────────── */
-    .case {
-      padding: 120px 0;
-    }
-
-    .case--dark {
-      background: var(--gray-900);
-    }
-
-    .case--light-gray {
-      background: var(--gray-100);
-    }
-
-    .case--white {
-      background: var(--white);
-    }
-
-    /* 2-column header row */
-    .case-header {
-      display: flex;
-      gap: 80px;
-      align-items: flex-start;
-      margin-bottom: 80px;
-    }
-
-    .case-header__left {
-      flex: 0 0 60%;
-    }
-
-    .case-header__right {
-      flex: 0 0 calc(40% - 80px);
-    }
-
-    .case-headline {
-      font-size: clamp(48px, 6vw, 72px);
-      font-weight: 900;
-      line-height: 0.92;
-      letter-spacing: -0.03em;
-      margin-bottom: 32px;
-      margin-top: 24px;
-    }
-
-    .case-body {
-      font-size: 17px;
-      font-weight: 400;
-      line-height: 1.7;
-      color: var(--gray-700);
-      max-width: 560px;
-    }
-
-    /* Right column details */
-    .outcome-block {
-      margin-bottom: 32px;
-    }
-
-    .outcome-block .label {
-      margin-bottom: 10px;
-    }
-
-    .outcome-title {
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 4px;
-    }
-
-    .outcome-sub {
-      font-size: 14px;
-      font-weight: 300;
-      color: var(--gray-500);
-      margin-bottom: 4px;
-    }
-
-    .divider {
-      border: none;
-      border-top: 1px solid var(--gray-300);
-      margin: 20px 0;
-    }
-
-    .divider--dark {
-      border-top-color: var(--gray-700);
-    }
-
-    .detail-list {
-      font-size: 14px;
-      font-weight: 300;
-      color: var(--gray-500);
-      line-height: 1.8;
-    }
-
-    /* ─────────────────────────────────────────
-       CASE 01 — MEDIA BLOCKS
-    ───────────────────────────────────────── */
-    .media-block {
-      margin-bottom: 40px;
-    }
-
-    .media-block:last-child {
-      margin-bottom: 0;
-    }
-
-    .main-video {
-      width: 100%;
-      height: 700px;
-      object-fit: cover;
-      background: #000;
-    }
-
-    .hub-image {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-    }
-
-    /* ─── Lafayette Hub live embed ─── */
-    .hub-block {
-      margin-bottom: 40px;
-    }
-
-    .hub-label-row {
+    /* ─── SECTION HEADER ROW ─── */
+    .section-header {
+      border-top: 1px solid var(--rule);
+      padding-top: 20px;
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .hub-label-row .label {
-      margin-bottom: 0;
-    }
-
-    .hub-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--black);
-      text-decoration: none;
-      border-bottom: 1px solid var(--black);
-      padding-bottom: 2px;
-      transition: opacity 0.2s;
-    }
-
-    .hub-cta:hover { opacity: 0.5; }
-
-    .hub-iframe-wrapper {
-      position: relative;
-      width: 100%;
-      height: 640px;
-      background: var(--gray-100);
-      overflow: hidden;
-      border: 1px solid var(--gray-300);
-    }
-
-    .hub-iframe-wrapper iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-    }
-
-    /* click-through overlay: remove if you want the iframe interactive inline */
-    .hub-iframe-overlay {
-      position: absolute;
-      inset: 0;
-      cursor: pointer;
-      z-index: 2;
-    }
-
-    .ebike-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-    }
-
-    .ebike-grid img {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-    }
-
-    /* ─────────────────────────────────────────
-       CASE 02 — DARK OVERRIDES
-    ───────────────────────────────────────── */
-    .case--dark .case-body {
-      color: var(--gray-300);
-    }
-
-    .case--dark .case-headline {
-      color: var(--white);
-    }
-
-    .case--dark .outcome-title {
-      color: var(--white);
-    }
-
-    .case--dark .detail-list {
-      color: var(--gray-300);
-    }
-
-    .case--dark .outcome-sub {
-      color: var(--gray-300);
-    }
-
-    /* Video grid — 3 columns */
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .video-item video {
-      height: 420px;
-      object-fit: cover;
-    }
-
-    /* ─────────────────────────────────────────
-       CASE 03 — LIGHT GRAY OVERRIDES
-    ───────────────────────────────────────── */
-    .case--light-gray .case-body {
-      color: var(--gray-700);
-    }
-
-    .case--light-gray .case-headline {
-      color: var(--black);
-    }
-
-    /* ─────────────────────────────────────────
-       PHOTOGRAPHY
-    ───────────────────────────────────────── */
-    .photography {
-      background: var(--black);
-      padding: 120px 0;
-    }
-
-    .photography__intro {
       margin-bottom: 80px;
     }
-
-    .photography__headline {
-      font-size: clamp(48px, 8vw, 96px);
-      font-weight: 900;
-      line-height: 0.92;
-      letter-spacing: -0.04em;
-      color: var(--white);
-      margin-top: 20px;
-    }
-
-    /* Masonry photo grid — 2 columns */
-    .photo-grid {
-      columns: 2;
-      column-gap: 16px;
-    }
-
-    .photo-grid__item {
-      break-inside: avoid;
-      margin-bottom: 16px;
-      overflow: hidden;
-    }
-
-    .photo-grid__item--tall img {
-      width: 100%;
-      aspect-ratio: 3 / 4;
-      object-fit: cover;
-      display: block;
-    }
-
-    .photo-grid__item--wide img {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* ─────────────────────────────────────────
-       CONTACT / FOOTER
-    ───────────────────────────────────────── */
-    .contact {
-      background: var(--black);
-      padding: 120px 0 0;
-    }
-
-    .contact__headline {
-      font-size: clamp(48px, 8vw, 120px);
-      font-weight: 900;
-      line-height: 0.92;
-      letter-spacing: -0.04em;
-      color: var(--white);
-      margin-bottom: 64px;
-    }
-
-    .contact__email {
-      display: block;
-      font-size: clamp(22px, 3vw, 36px);
-      font-weight: 300;
-      color: var(--gray-300);
-      letter-spacing: -0.01em;
-      margin-bottom: 16px;
-      transition: color 0.2s;
-    }
-
-    .contact__email:hover {
-      color: var(--white);
-    }
-
-    .contact__phone {
-      display: block;
-      font-size: clamp(18px, 2.5vw, 28px);
-      font-weight: 300;
-      color: var(--gray-500);
-      letter-spacing: -0.01em;
-      margin-bottom: 120px;
-    }
-
-    .footer-strip {
-      border-top: 1px solid var(--gray-900);
-      padding: 32px 0;
-    }
-
-    .footer-strip p {
+    .section-header span {
+      font-family: 'DM Sans', sans-serif;
       font-size: 11px;
-      font-weight: 400;
-      color: var(--gray-500);
-      letter-spacing: 0.08em;
+      font-weight: 500;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
+      color: var(--muted);
     }
 
-    /* ─────────────────────────────────────────
-       RESPONSIVE
-    ───────────────────────────────────────── */
+    /* ─── SECTION RULE DIVIDER ─── */
+    .section-rule { position: relative; border-top: 1px solid var(--rule); margin: 0; text-align: center; }
+    .section-rule span {
+      position: relative; top: -9px;
+      background: var(--ink); padding: 0 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px; color: var(--rule); letter-spacing: 0.1em;
+    }
+    .section-rule--soft span { background: var(--ink-soft); }
+
+    /* ─── LABELS ─── */
+    .label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold);
+      display: block; margin-bottom: 16px;
+    }
+
+    /* ─── CASE SECTIONS ─── */
+    .case { padding: 100px 0; }
+    .case--ink  { background: var(--ink); }
+    .case--soft { background: var(--ink-soft); }
+
+    .case__opener { margin-bottom: 40px; }
+    .case__number {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 24px;
+    }
+    .case__headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      font-size: clamp(56px, 8vw, 112px);
+      line-height: 0.95;
+      letter-spacing: 0.03em;
+      color: var(--cream);
+      max-width: 800px;
+    }
+    .case__divider { border: none; border-top: 1px solid var(--rule); margin: 40px 0 56px; position: relative; }
+    .case__divider::before { content: ''; position: absolute; top: -1px; left: 0; width: 48px; height: 2px; background: var(--gold); }
+
+    /* Two-column layout */
+    .case-cols {
+      display: flex; gap: 80px; align-items: flex-start;
+    }
+    .case-cols__left { flex: 3; min-width: 0; }
+    .case-cols__right {
+      flex: 2; min-width: 0;
+      align-self: start;
+      position: sticky; top: 100px;
+      border-left: 1px solid var(--rule);
+      padding-left: 48px;
+    }
+
+    .case-body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300; font-size: 17px;
+      color: var(--light); line-height: 1.75;
+      margin-bottom: 48px;
+    }
+
+    /* Right column meta */
+    .meta-block { margin-bottom: 36px; }
+    .meta-block .label { margin-bottom: 10px; }
+    .meta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px; color: var(--cream);
+      font-weight: 400; letter-spacing: 0.05em; margin-bottom: 4px;
+    }
+    .meta-list {
+      list-style: none;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300; font-size: 15px;
+      color: var(--light); line-height: 1.9;
+    }
+    .meta-text {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300; font-size: 15px;
+      color: var(--light); line-height: 1.7;
+    }
+
+    /* ─── VIDEO THUMB ─── */
+    .vt { position: relative; cursor: pointer; overflow: hidden; background: #000; aspect-ratio: 16/9; }
+    .vt img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, opacity 0.3s ease; display: block; }
+    .vt:hover img { transform: scale(1.02); opacity: 0.75; }
+    .vt__overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: flex-end; justify-content: space-between;
+      padding: 28px 32px;
+      background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 50%);
+    }
+    .vt__label {
+      font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+    }
+    .vt__play {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(255,255,255,0.9); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.2s ease, background 0.2s ease;
+      color: #0d0c0b; flex-shrink: 0;
+    }
+    .vt__play svg { width: 22px; height: 22px; margin-left: 3px; }
+    .vt:hover .vt__play { transform: scale(1.08); background: #fff; }
+
+    /* ─── HUB FEATURE ─── */
+    .hub-feature { margin-top: 48px; }
+    .hub-feature__header {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .hub-feature__link {
+      font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--light); border-bottom: 1px solid var(--rule);
+      padding-bottom: 2px; transition: color 0.2s;
+    }
+    .hub-feature__link:hover { color: var(--cream); }
+    .hub-frame {
+      position: relative; width: 100%; height: 600px;
+      overflow: hidden; background: var(--warm-mid);
+      border: 1px solid var(--rule);
+    }
+    .hub-frame iframe { width: 100%; height: 100%; border: none; display: block; }
+    .hub-frame__click { position: absolute; inset: 0; z-index: 2; cursor: pointer; }
+
+    /* ─── GRIDS ─── */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .grid-5 img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
+
+    /* ─── MEDIA HELPERS ─── */
+    .media-caption {
+      font-family: 'DM Sans', sans-serif; font-size: 12px;
+      color: var(--muted); letter-spacing: 0.04em; margin-top: 12px;
+    }
+    .media-gap { margin-top: 48px; }
+
+    /* ─── PHOTO GRID ─── */
+    .photo-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3px; margin-top: 56px;
+    }
+
+    /* ─── REEL EMBEDS ─── */
+    .reel-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; margin-top: 56px;
+    }
+    .reel-embed {
+      position: relative; aspect-ratio: 16/9;
+      background: #000; overflow: hidden;
+      border: 1px solid var(--rule);
+    }
+    .reel-embed iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: none;
+    }
+    .reel-cta {
+      margin-top: 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 20px;
+      padding-top: 32px;
+      border-top: 1px solid var(--rule);
+    }
+    .reel-cta__text {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300; font-size: 15px;
+      color: var(--light);
+    }
+    .reel-cta__link {
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); border-bottom: 1px solid var(--gold);
+      padding-bottom: 3px; white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+    .reel-cta__link:hover { opacity: 0.7; }
+    .photo-grid__item { overflow: hidden; position: relative; cursor: pointer; background: var(--warm-mid); }
+    .photo-grid__item:nth-child(odd)  { aspect-ratio: 3/4; }
+    .photo-grid__item:nth-child(even) { aspect-ratio: 4/3; }
+    .photo-grid__item:first-child { grid-column: 1 / -1; aspect-ratio: 21/9; }
+    .photo-grid__item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.3s ease;
+    }
+    .photo-grid__item:hover img { transform: scale(1.04); opacity: 0.85; }
+
+    /* ─── CONTACT / FOOTER ─── */
+    .contact { background: var(--ink); padding: 100px 0 60px; }
+    .contact__rule { border: none; border-top: 2px solid var(--gold); margin-bottom: 56px; }
+    .contact__email {
+      font-family: 'Bebas Neue', sans-serif;
+      font-style: normal;
+      font-size: clamp(48px, 7vw, 96px);
+      letter-spacing: 0.03em;
+      color: var(--cream); font-weight: 400;
+      transition: opacity 0.2s;
+      display: inline-block;
+    }
+    .contact__email:hover { color: var(--gold); opacity: 1; }
+    .contact__phone {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300; font-size: 18px;
+      color: var(--light); margin-top: 20px; display: inline-block;
+    }
+    .contact__phone:hover { color: var(--cream); }
+    .footer-strip {
+      border-top: 1px solid var(--rule);
+      margin-top: 80px; padding-top: 28px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px; color: var(--muted);
+    }
+
+    /* ─── VIDEO MODAL ─── */
+    #vmodal { display: none; }
+    #vmodal[open] {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      max-width: 100%; max-height: 100%;
+      background: rgba(13,12,11,0.97);
+      border: none; padding: 0; margin: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #vmodal::backdrop { background: rgba(13,12,11,0.97); }
+    #vmodal-video {
+      width: 90vw; max-width: 1200px; max-height: 85vh;
+      aspect-ratio: 16/9; background: #000;
+    }
+    #vmodal-close {
+      position: fixed; top: 28px; right: 32px;
+      background: none; border: none;
+      color: rgba(255,255,255,0.6); font-size: 32px;
+      cursor: pointer; z-index: 1;
+      transition: color 0.2s; line-height: 1;
+    }
+    #vmodal-close:hover { color: #fff; }
+
+    /* ─── REVEAL ANIMATIONS ─── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .grid-3 .vt:nth-child(2) { transition-delay: 0.1s; }
+    .grid-3 .vt:nth-child(3) { transition-delay: 0.2s; }
+    .grid-5 img:nth-child(2) { transition-delay: 0.05s; }
+    .grid-5 img:nth-child(3) { transition-delay: 0.10s; }
+    .grid-5 img:nth-child(4) { transition-delay: 0.15s; }
+    .grid-5 img:nth-child(5) { transition-delay: 0.20s; }
+
+    /* ─── RESPONSIVE ─── */
     @media (max-width: 768px) {
-      .inner,
-      .nav__inner,
-      .hero__inner {
-        padding: 0 24px;
-      }
-
-      .case-header {
-        flex-direction: column;
-        gap: 48px;
-      }
-
-      .case-header__left,
-      .case-header__right {
-        flex: none;
-        width: 100%;
-      }
-
-      .video-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .ebike-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .photo-grid {
-        columns: 1;
-      }
-
-      .main-video {
-        height: auto;
-      }
-
-      .video-item video {
-        height: auto;
-      }
-
+      nav { padding: 20px 24px; }
+      .nav__toggle { display: flex; }
       .nav__links {
-        gap: 24px;
+        position: fixed; top: 68px; left: 0; right: 0;
+        flex-direction: column; gap: 0;
+        background: var(--ink);
+        border-bottom: 1px solid var(--rule);
+        max-height: 0; overflow: hidden;
+        transition: max-height 0.3s ease;
       }
+      .nav__links.is-open { max-height: 320px; }
+      .nav__links a {
+        padding: 18px 24px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .hero { padding: 100px 24px 60px; }
+      .hero__scroll { left: 24px; }
+      .container { padding: 0 24px; }
+      .case-cols { flex-direction: column; }
+      .case-cols__right {
+        position: static;
+        border-left: none; border-top: 1px solid var(--rule);
+        padding-left: 0; padding-top: 40px; margin-top: 40px;
+      }
+      .grid-3 { grid-template-columns: 1fr; }
+      .reel-grid { grid-template-columns: 1fr; }
+      .grid-5 { grid-template-columns: repeat(3, 1fr); }
+      .photo-grid { grid-template-columns: 1fr; }
+      .photo-grid__item:first-child { aspect-ratio: 4/3; }
+      .hub-frame { height: 400px; }
+    }
+
+    /* ─── ROLE TRACKS ─── */
+    .tracks { margin-top: 48px; }
+    .tracks__prompt {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
+    }
+    .tracks__list { display: flex; flex-wrap: wrap; gap: 10px; }
+    .track-btn {
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+      letter-spacing: 0.06em; color: var(--light);
+      background: transparent; border: 1px solid var(--rule);
+      padding: 10px 18px; cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .track-btn:hover { border-color: var(--gold); color: var(--cream); }
+    .track-btn[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+    .hero__ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+    .btn {
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 14px 24px; border: 1px solid var(--gold); color: var(--gold);
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn:hover { background: var(--gold); color: var(--ink); }
+    .btn--solid { background: var(--gold); color: var(--ink); }
+    .btn--solid:hover { background: transparent; color: var(--gold); }
+    .hero__meta { margin-top: 22px; font-size: 13px; color: var(--muted); letter-spacing: 0.04em; }
+
+    /* Reorderable work area */
+    #work { display: flex; flex-direction: column; }
+    #work > .section-rule { display: none; }
+    #work > .case { border-top: 1px solid var(--rule); }
+    .case__fit {
+      display: none; margin-top: 20px; max-width: 640px;
+      font-size: 14px; color: var(--gold); letter-spacing: 0.02em; line-height: 1.6;
+    }
+    .case__fit.is-on { display: block; }
+
+    /* ─── ABOUT / PROOF ─── */
+    .about { background: var(--ink); padding: 100px 0; }
+    .proof {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+      margin-bottom: 72px;
+    }
+    .proof__item { padding: 32px 24px 32px 0; }
+    .proof__item + .proof__item { border-left: 1px solid var(--rule); padding-left: 24px; }
+    .proof__num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 56px; line-height: 1;
+      color: var(--cream); letter-spacing: 0.03em;
+    }
+    .proof__txt { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+    .skill-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px 48px; }
+    .resume-list { list-style: none; }
+    .resume-list li { border-bottom: 1px solid var(--rule); }
+    .resume-list a {
+      display: flex; justify-content: space-between; gap: 16px;
+      padding: 14px 0; font-size: 15px; color: var(--light); transition: color 0.2s;
+    }
+    .resume-list a:hover { color: var(--gold); }
+    .resume-list span { color: var(--muted); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* ─── MORE WORK ─── */
+    .more { background: var(--ink-soft); padding: 100px 0; }
+    .more-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
+    .tile { background: var(--warm-mid); border: 1px solid var(--rule); display: flex; flex-direction: column; }
+    .tile__media { aspect-ratio: 4/3; overflow: hidden; background: #000; }
+    .tile__media img { width: 100%; height: 100%; object-fit: cover; }
+    .tile__body { padding: 20px 22px 24px; }
+    .tile__title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--cream); letter-spacing: 0.04em; font-weight: 400; }
+    .tile__desc { font-size: 14px; font-weight: 300; line-height: 1.6; margin-top: 6px; }
+    .tile__tags { font-size: 11px; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 12px; }
+    .tile a.tile__link { font-size: 12px; color: var(--light); border-bottom: 1px solid var(--rule); display: inline-block; margin-top: 12px; }
+    .tile.is-dim { opacity: 0.35; }
+
+    @media (max-width: 768px) {
+      .proof { grid-template-columns: 1fr 1fr; }
+      .proof__item:nth-child(3) { border-left: none; padding-left: 0; }
+      .proof__item:nth-child(n+3) { border-top: 1px solid var(--rule); }
+      .skill-cols { grid-template-columns: 1fr; }
+      .more-grid { grid-template-columns: 1fr; }
+      .nav__links.is-open { max-height: 420px; }
     }
   </style>
 </head>
-
 <body>
 
-  <!-- ════════════════════════════════════════
-       NAVIGATION
-  ════════════════════════════════════════ -->
-  <nav class="nav" role="navigation" aria-label="Main navigation">
-    <div class="nav__inner">
-      <span class="nav__logo">SA</span>
-      <ul class="nav__links">
-        <li><a href="#work">Work</a></li>
-        <li><a href="#photography">Photography</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+  <!-- GRAIN -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <nav id="site-nav">
+    <span class="nav__logo">SA</span>
+    <div class="nav__links" id="nav-links">
+      <a href="#work">Work</a>
+      <a href="#more">More</a>
+      <a href="#reel">Reel</a>
+      <a href="#photography">Photos</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
     </div>
+    <button class="nav__toggle" id="nav-toggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
-
-  <!-- ════════════════════════════════════════
-       HERO
-  ════════════════════════════════════════ -->
-  <section class="hero" aria-label="Hero">
+  <!-- HERO -->
+  <section class="hero">
     <div class="hero__inner">
-      <p class="hero__label">Brand &amp; Communications Leader</p>
-      <h1 class="hero__name">
-        Sebastian<br>Acevedo
-      </h1>
-      <p class="hero__tagline">10 years. Built from scratch.</p>
-    </div>
+      <p class="hero__label" id="hero-label">Brand &amp; Communications Leader</p>
+      <h1 class="hero__name">Sebastian<br>Acevedo</h1>
+      <div class="hero__rule"></div>
+      <p class="hero__tagline" id="hero-tagline">Bilingual producer, designer and storyteller with more than 10 years across broadcast, advertising and local government. Two-time Emmy Award winner.</p>
 
-    <a href="#work" class="hero__arrow" aria-label="Scroll to work">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <polyline points="6 9 12 15 18 9" />
+      <div class="tracks" role="group" aria-label="Choose a view of this portfolio">
+        <p class="tracks__prompt">View work for</p>
+        <div class="tracks__list">
+          <button class="track-btn" data-track="all" aria-pressed="true">All work</button>
+          <button class="track-btn" data-track="video" aria-pressed="false">Video Editing</button>
+          <button class="track-btn" data-track="creative" aria-pressed="false">Creative Production</button>
+          <button class="track-btn" data-track="design" aria-pressed="false">Communications Design</button>
+          <button class="track-btn" data-track="field" aria-pressed="false">Videography &amp; Live Events</button>
+        </div>
+      </div>
+
+      <div class="hero__ctas">
+        <a href="#work" class="btn btn--solid">See the work</a>
+        <a href="#about" class="btn" id="resume-btn">Resumes</a>
+      </div>
+      <p class="hero__meta">Colorado · Open to remote and hybrid · English / Español</p>
+    </div>
+    <div class="hero__scroll">
+      Scroll
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>
       </svg>
-    </a>
+    </div>
   </section>
 
+  <!-- ─── WORK ─── -->
+  <div id="work">
 
-  <!-- ════════════════════════════════════════
-       WORK SECTION
-  ════════════════════════════════════════ -->
-  <div id="work" class="work">
-
-    <!-- Work opener label -->
-    <div class="work__opener">
-      <div class="inner">
-        <span class="label">Selected Work — 3 Cases</span>
+    <!-- Section marker -->
+    <div class="container" id="work-head">
+      <div class="section-header">
+        <span>Selected Work</span>
+        <span id="case-count">03 Cases</span>
       </div>
     </div>
 
+    <!-- ════════ CASE 01 ════════ -->
+    <section class="case case--soft" id="lafayette" data-case>
+      <div class="container">
 
-    <!-- ──────────────────────────────────────
-         CASE 01 — City of Lafayette
-    ────────────────────────────────────── -->
-    <section class="case case--white" aria-label="Case Study 01">
-      <div class="inner">
+        <!-- Opener -->
+        <div class="case__opener reveal">
+          <p class="case__number">01 / City of Lafayette</p>
+          <h2 class="case__headline">Building a City's<br>Brand Voice<br>From Nothing</h2>
+          <p class="case__fit" data-fit-for="lafayette"></p>
+        </div>
+        <hr class="case__divider">
 
-        <!-- 2-col header -->
-        <div class="case-header">
+        <!-- Two-column -->
+        <div class="case-cols">
+          <div class="case-cols__left">
+            <p class="case-body">The City of Lafayette had no shared identity. Different departments, different voices, no system anyone could hand off. I built the infrastructure — voice guidelines, messaging frameworks, content templates, and an interactive brand hub every department now uses. Then we launched Somos Lafayette, a bilingual identity campaign that gave the city something to rally around.</p>
 
-          <div class="case-header__left">
-            <span class="label">Case Study — 01</span>
-            <h2 class="case-headline">
-              Building a City's<br>
-              Brand Voice<br>
-              From Nothing
-            </h2>
-            <p class="case-body">
-              The City of Lafayette had no shared identity. Different departments, different voices, no system anyone could actually hand off. I built the infrastructure — voice guidelines, messaging frameworks, content templates, and an interactive brand hub that every department now uses. Then we launched Somos Lafayette, a bilingual identity campaign that gave the city something to rally around.
-            </p>
-          </div>
-
-          <div class="case-header__right">
-            <div class="outcome-block">
-              <span class="label">Outcome</span>
-              <p class="outcome-title">Brand System · City-wide</p>
-              <p class="outcome-sub">Promotion Image: Campaign</p>
+            <!-- Main video -->
+            <div class="vt reveal" data-src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/00_Somos_Lafayette_launch_video_Eng_pvdgsi.mp4" data-poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_1200,q_80/00_Somos_Lafayette_launch_video_Eng_pvdgsi.jpg">
+              <img src="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_1200,q_80/00_Somos_Lafayette_launch_video_Eng_pvdgsi.jpg" alt="" loading="lazy">
+              <div class="vt__overlay">
+                <span class="vt__label">Somos Lafayette — Brand Launch Film</span>
+                <button class="vt__play" aria-label="Play">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+              </div>
             </div>
 
-            <hr class="divider" />
+            <!-- Hub embed -->
+            <div class="hub-feature reveal">
+              <div class="hub-feature__header">
+                <span class="label">Lafayette Brand Hub</span>
+                <a href="lafayette-hub.html" target="_blank" class="hub-feature__link">Explore Full Hub ↗</a>
+              </div>
+              <div class="hub-frame">
+                <a href="lafayette-hub.html" target="_blank" class="hub-frame__click" aria-label="Open Lafayette Brand Hub"></a>
+                <iframe src="lafayette-hub.html" title="Lafayette Brand Hub"></iframe>
+              </div>
+              <p class="media-caption">Lafayette Brand Hub — voice guidelines, color systems, logo toolkit, and interactive templates built for city staff</p>
+              <p class="media-caption" style="margin-top:10px;">
+                <a href="https://www.lafayetteco.gov/DocumentCenter/View/47340/Lafayette-Hub-V3" target="_blank" style="color:var(--gold); border-bottom:1px solid var(--gold); padding-bottom:1px;">View Official Brand Hub PDF (City of Lafayette) ↗</a>
+              </p>
+            </div>
 
-            <div class="outcome-block">
+            <!-- E-Bike socials grid -->
+            <div class="grid-5 media-gap">
+              <img src="assets/brand/E-Bike Socials-01.png" alt="" loading="lazy" class="reveal">
+              <img src="assets/brand/E-Bike Socials-02.png" alt="" loading="lazy" class="reveal">
+              <img src="assets/brand/E-Bike Socials-03.png" alt="" loading="lazy" class="reveal">
+              <img src="assets/brand/E-Bike Socials-04.png" alt="" loading="lazy" class="reveal">
+              <img src="assets/brand/E-Bike Socials-05.png" alt="" loading="lazy" class="reveal">
+            </div>
+            <p class="media-caption">E-Bike Program — Social Content Series</p>
+          </div>
+
+          <!-- Right meta column -->
+          <div class="case-cols__right">
+            <div class="meta-block">
+              <span class="label">Outcome</span>
+              <p class="meta-title">Brand System · City-wide</p>
+            </div>
+            <div class="meta-block">
               <span class="label">Deliverables</span>
-              <p class="detail-list">
-                Brand System · Voice Guidelines · Digital Asset Library<br>
-                Lafayette Brand Hub · Bilingual Campaigns
-              </p>
+              <ul class="meta-list">
+                <li>Voice Guidelines</li>
+                <li>Messaging Frameworks</li>
+                <li>Digital Asset Library</li>
+                <li>Lafayette Brand Hub</li>
+                <li>Bilingual Campaigns</li>
+              </ul>
             </div>
-
-            <div class="outcome-block">
+            <div class="meta-block">
               <span class="label">Client</span>
-              <p class="detail-list">City of Lafayette, CO · 2023–Present</p>
+              <p class="meta-text">City of Lafayette, CO<br>2023 – Present</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="section-rule"><span>—</span></div>
+
+    <!-- ════════ CASE 02 ════════ -->
+    <section class="case case--ink" id="broadcast" data-case>
+      <div class="container">
+
+        <div class="case__opener reveal">
+          <p class="case__number">02 / NBCUniversal &amp; Univision</p>
+          <h2 class="case__headline">Campaigns<br>&amp; Promos</h2>
+          <p class="case__fit" data-fit-for="broadcast"></p>
+        </div>
+        <hr class="case__divider">
+
+        <div class="case-cols">
+          <div class="case-cols__left">
+            <p class="case-body">Five years in broadcast. NBCUniversal and Univision. Fast turnarounds, national audiences, and a standard that doesn't forgive mediocrity. At Univision I led Spanish-language brand and promotional creative for a market that reads through anything inauthentic. At NBCUniversal I ran promotional storytelling for one of the country's largest networks.</p>
+
+            <!-- 3-column video grid -->
+            <div class="grid-3">
+              <div class="vt reveal" data-src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/04_AVS_POP_DIRECTOR_S_CUT_ypbgh0.mp4" data-poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/04_AVS_POP_DIRECTOR_S_CUT_ypbgh0.jpg">
+                <img src="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/04_AVS_POP_DIRECTOR_S_CUT_ypbgh0.jpg" alt="" loading="lazy">
+                <div class="vt__overlay">
+                  <span class="vt__label">AVS Pop — Director's Cut</span>
+                  <button class="vt__play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+              </div>
+              <div class="vt reveal" data-src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/05_Telemundo_Colorado_siempre_contigo_ysa6w7.mp4" data-poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/05_Telemundo_Colorado_siempre_contigo_ysa6w7.jpg">
+                <img src="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/05_Telemundo_Colorado_siempre_contigo_ysa6w7.jpg" alt="" loading="lazy">
+                <div class="vt__overlay">
+                  <span class="vt__label">Telemundo Colorado — Siempre Contigo</span>
+                  <button class="vt__play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+              </div>
+              <div class="vt reveal" data-src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/01_SOCCER_PROMO_TRI_ctjswh.mp4" data-poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/01_SOCCER_PROMO_TRI_ctjswh.jpg">
+                <img src="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/01_SOCCER_PROMO_TRI_ctjswh.jpg" alt="" loading="lazy">
+                <div class="vt__overlay">
+                  <span class="vt__label">Soccer Promo — TRI</span>
+                  <button class="vt__play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+              </div>
             </div>
           </div>
 
-        </div><!-- /case-header -->
-
-        <!-- Main launch video -->
-        <div class="media-block">
-          <video
-            controls
-            preload="none"
-            poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_1200,q_80/00_Somos_Lafayette_launch_video_Eng_pvdgsi.jpg"
-            src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/00_Somos_Lafayette_launch_video_Eng_pvdgsi.mp4"
-            class="main-video"
-            aria-label="Somos Lafayette brand launch film">
-          </video>
-          <p class="caption">Somos Lafayette — Brand Launch Film</p>
-        </div>
-
-        <!-- Lafayette Brand Hub — live interactive embed -->
-        <div class="hub-block">
-          <div class="hub-label-row">
-            <span class="label">Lafayette Brand Hub</span>
-            <a href="lafayette-hub.html" target="_blank" class="hub-cta">
-              Explore Full Hub &nbsp;↗
-            </a>
-          </div>
-          <div class="hub-iframe-wrapper">
-            <!-- Overlay makes the whole block a click-through to the full hub -->
-            <a href="lafayette-hub.html" target="_blank" class="hub-iframe-overlay" aria-label="Open Lafayette Brand Hub"></a>
-            <iframe
-              src="lafayette-hub.html"
-              title="Lafayette Brand Hub — interactive brand guidelines portal"
-              loading="lazy"
-              sandbox="allow-scripts allow-same-origin">
-            </iframe>
-          </div>
-          <p class="caption">Lafayette Brand Hub — voice guidelines, color systems, logo toolkit, and interactive templates. Built for city staff to use daily.</p>
-        </div>
-
-        <!-- E-Bike socials grid -->
-        <div class="media-block">
-          <div class="ebike-grid">
-            <img src="assets/brand/E-Bike Socials-01.png" alt="E-Bike Social 01" loading="lazy" />
-            <img src="assets/brand/E-Bike Socials-02.png" alt="E-Bike Social 02" loading="lazy" />
-            <img src="assets/brand/E-Bike Socials-03.png" alt="E-Bike Social 03" loading="lazy" />
-            <img src="assets/brand/E-Bike Socials-04.png" alt="E-Bike Social 04" loading="lazy" />
-            <img src="assets/brand/E-Bike Socials-05.png" alt="E-Bike Social 05" loading="lazy" />
-          </div>
-          <p class="caption">E-Bike Program — Social Content Series</p>
-        </div>
-
-      </div><!-- /inner -->
-    </section><!-- /case 01 -->
-
-
-    <!-- ──────────────────────────────────────
-         CASE 02 — Broadcast
-    ────────────────────────────────────── -->
-    <section class="case case--dark" aria-label="Case Study 02">
-      <div class="inner">
-
-        <!-- 2-col header -->
-        <div class="case-header">
-
-          <div class="case-header__left">
-            <span class="label">Case Study — 02</span>
-            <h2 class="case-headline">
-              Broadcast.<br>
-              National Stage.<br>
-              No Shortcuts
-            </h2>
-            <p class="case-body">
-              Five years in broadcast. NBCUniversal and Univision. Fast turnarounds, national audiences, and a standard that doesn't forgive mediocrity. At Univision I led Spanish-language brand and promotional creative for a market that reads through anything inauthentic. At NBCUniversal I ran promotional storytelling for one of the country's largest networks.
-            </p>
-          </div>
-
-          <div class="case-header__right">
-            <div class="outcome-block">
+          <!-- Right meta column -->
+          <div class="case-cols__right">
+            <div class="meta-block">
               <span class="label">Outcome</span>
-              <p class="outcome-title">Two Emmy Awards · 2023</p>
-              <p class="outcome-sub">News Promotion Image: Single Spot</p>
-              <p class="outcome-sub">Promotion Image: Campaign</p>
-              <p class="outcome-sub" style="color: var(--gray-300); margin-top: 8px;">CBA Awards of Excellence · 2023</p>
+              <p class="meta-title">Two Emmy Awards · 2023</p>
+              <ul class="meta-list" style="margin-top:8px;">
+                <li>News Promotion Image: Single Spot</li>
+                <li>Promotion Image: Campaign</li>
+                <li>CBA Awards of Excellence · 2023</li>
+              </ul>
             </div>
-
-            <hr class="divider divider--dark" />
-
-            <div class="outcome-block">
+            <div class="meta-block">
               <span class="label">Roles</span>
-              <p class="detail-list">
-                Creative Services Manager · NBCUniversal · 2022–2023<br>
-                Creative Services Manager · Univision · 2018–2022
-              </p>
+              <ul class="meta-list">
+                <li>Senior Creative Services Producer</li>
+                <li>NBCUniversal · 2022–2023</li>
+                <li style="margin-top:8px;">Creative Services Producer</li>
+                <li>Univision · 2018–2022</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="section-rule section-rule--soft"><span>—</span></div>
+
+    <!-- ════════ CASE 03 ════════ -->
+    <section class="case case--soft" id="bilingual" data-case>
+      <div class="container">
+
+        <div class="case__opener reveal">
+          <p class="case__number">03 / Hispanic Audience Campaigns</p>
+          <h2 class="case__headline">Fluency,<br>Not Translation</h2>
+          <p class="case__fit" data-fit-for="bilingual"></p>
+        </div>
+        <hr class="case__divider">
+
+        <div class="case-cols">
+          <div class="case-cols__left">
+            <p class="case-body">Spanish-speaking audiences don't just decode messages — they read intent. A campaign built by someone who doesn't understand the culture fails on contact. I spent years building campaigns that knew the difference: sports identity spots, talent showcases, and social content built around cultural fluency, not reach metrics.</p>
+
+            <div class="grid-3">
+              <div class="vt reveal" data-src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/02_SOCCER__SOLEDAD__TRI_2_v1kul0.mp4" data-poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/02_SOCCER__SOLEDAD__TRI_2_v1kul0.jpg">
+                <img src="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/02_SOCCER__SOLEDAD__TRI_2_v1kul0.jpg" alt="" loading="lazy">
+                <div class="vt__overlay">
+                  <span class="vt__label">Soccer — La Soledad</span>
+                  <button class="vt__play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+              </div>
+              <div class="vt reveal" data-src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/06_TALENT_STEPHANIE_feoqhl.mp4" data-poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/06_TALENT_STEPHANIE_feoqhl.jpg">
+                <img src="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/06_TALENT_STEPHANIE_feoqhl.jpg" alt="" loading="lazy">
+                <div class="vt__overlay">
+                  <span class="vt__label">Talent Showcase — Stephanie</span>
+                  <button class="vt__play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+              </div>
+              <div class="vt reveal" data-src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/1_Facebook_Post_ulm6ce.mp4" data-poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/1_Facebook_Post_ulm6ce.jpg">
+                <img src="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/1_Facebook_Post_ulm6ce.jpg" alt="" loading="lazy">
+                <div class="vt__overlay">
+                  <span class="vt__label">Social — Facebook Campaign</span>
+                  <button class="vt__play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+              </div>
             </div>
           </div>
 
-        </div><!-- /case-header -->
-
-        <!-- 3-column video grid -->
-        <div class="video-grid">
-
-          <div class="video-item">
-            <video
-              controls
-              preload="none"
-              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/04_AVS_POP_DIRECTOR_S_CUT_ypbgh0.jpg"
-              src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/04_AVS_POP_DIRECTOR_S_CUT_ypbgh0.mp4"
-              aria-label="AVS Pop Director's Cut">
-            </video>
-            <p class="caption">AVS Pop — Director's Cut</p>
-          </div>
-
-          <div class="video-item">
-            <video
-              controls
-              preload="none"
-              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/05_Telemundo_Colorado_siempre_contigo_ysa6w7.jpg"
-              src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/05_Telemundo_Colorado_siempre_contigo_ysa6w7.mp4"
-              aria-label="Telemundo Colorado Siempre Contigo">
-            </video>
-            <p class="caption">Telemundo Colorado — Siempre Contigo</p>
-          </div>
-
-          <div class="video-item">
-            <video
-              controls
-              preload="none"
-              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/01_SOCCER_PROMO_TRI_ctjswh.jpg"
-              src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/01_SOCCER_PROMO_TRI_ctjswh.mp4"
-              aria-label="Soccer Promo TRI">
-            </video>
-            <p class="caption">Soccer Promo — TRI</p>
-          </div>
-
-        </div><!-- /video-grid -->
-
-      </div><!-- /inner -->
-    </section><!-- /case 02 -->
-
-
-    <!-- ──────────────────────────────────────
-         CASE 03 — Cultural Fluency
-    ────────────────────────────────────── -->
-    <section class="case case--light-gray" aria-label="Case Study 03">
-      <div class="inner">
-
-        <!-- 2-col header -->
-        <div class="case-header">
-
-          <div class="case-header__left">
-            <span class="label">Case Study — 03</span>
-            <h2 class="case-headline">
-              Fluency.<br>
-              Not Translation
-            </h2>
-            <p class="case-body">
-              Spanish-speaking audiences don't just decode messages — they read intent. A campaign built by someone who doesn't understand the culture fails on contact. I spent years building campaigns that knew the difference: the Herencia Hispana series, sports identity spots, social content, and talent showcases that spoke to who the audience actually is.
-            </p>
-          </div>
-
-          <div class="case-header__right">
-            <div class="outcome-block">
+          <!-- Right meta column -->
+          <div class="case-cols__right">
+            <div class="meta-block">
               <span class="label">Outcome</span>
-              <p class="outcome-title">Cultural campaigns that connected</p>
+              <p class="meta-title">Cultural campaigns<br>that connected</p>
             </div>
-
-            <hr class="divider" />
-
-            <div class="outcome-block">
+            <div class="meta-block">
               <span class="label">Platforms</span>
-              <p class="detail-list">Univision · Telemundo · Social Media</p>
+              <p class="meta-text">Univision · Telemundo · Social Media</p>
             </div>
-
-            <div class="outcome-block">
+            <div class="meta-block">
               <span class="label">Languages</span>
-              <p class="detail-list">English / Spanish</p>
+              <p class="meta-text">English / Spanish</p>
             </div>
           </div>
+        </div>
 
-        </div><!-- /case-header -->
-
-        <!-- 3-column video grid -->
-        <div class="video-grid">
-
-          <div class="video-item">
-            <video
-              controls
-              preload="none"
-              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/02_SOCCER__SOLEDAD__TRI_2_v1kul0.jpg"
-              src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/02_SOCCER__SOLEDAD__TRI_2_v1kul0.mp4"
-              aria-label="Soccer La Soledad">
-            </video>
-            <p class="caption">Soccer — La Soledad</p>
-          </div>
-
-          <div class="video-item">
-            <video
-              controls
-              preload="none"
-              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/06_TALENT_STEPHANIE_feoqhl.jpg"
-              src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/06_TALENT_STEPHANIE_feoqhl.mp4"
-              aria-label="Talent Showcase Stephanie">
-            </video>
-            <p class="caption">Talent Showcase — Stephanie</p>
-          </div>
-
-          <div class="video-item">
-            <video
-              controls
-              preload="none"
-              poster="https://res.cloudinary.com/ddkmi47mi/video/upload/so_auto,w_800,q_80/1_Facebook_Post_ulm6ce.jpg"
-              src="https://res.cloudinary.com/ddkmi47mi/video/upload/q_auto/1_Facebook_Post_ulm6ce.mp4"
-              aria-label="Social Facebook Campaign">
-            </video>
-            <p class="caption">Social — Facebook Campaign</p>
-          </div>
-
-        </div><!-- /video-grid -->
-
-      </div><!-- /inner -->
-    </section><!-- /case 03 -->
+      </div>
+    </section>
 
   </div><!-- /work -->
 
+  <!-- ─── MORE WORK (tiles are built from the MORE_WORK list in the script at the bottom) ─── -->
+  <section id="more" class="more">
+    <div class="container">
+      <div class="section-header">
+        <span>More Work</span>
+        <span id="more-count"></span>
+      </div>
+      <h2 class="reveal" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,8vw,104px);color:var(--cream);font-weight:400;line-height:0.95;letter-spacing:0.03em;">Projects &amp;<br>Campaigns</h2>
+      <div class="more-grid" id="more-grid"></div>
+    </div>
+  </section>
 
-  <!-- ════════════════════════════════════════
-       PHOTOGRAPHY
-  ════════════════════════════════════════ -->
-  <section id="photography" class="photography" aria-label="Photography">
-    <div class="inner">
+  <!-- ─── EXTENDED REEL ─── -->
+  <section id="reel" style="background: var(--ink-soft); padding: 100px 0;">
+    <div class="container">
 
-      <div class="photography__intro">
-        <span class="label">Photography</span>
-        <h2 class="photography__headline">The Lens</h2>
+      <div class="section-header">
+        <span>Extended Reel</span>
+        <span>32 Pieces</span>
       </div>
 
-      <!-- Asymmetric 2-column masonry grid -->
+      <h2 class="reveal" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,8vw,104px);color:var(--cream);font-weight:400;line-height:0.95;letter-spacing:0.03em;">More From<br>The Reel</h2>
+      <p class="case-body reveal" style="margin-top:24px;max-width:640px;">A deeper cut of the work behind the case studies above, campaign spots, brand films, and social content spanning broadcast and civic projects. This is a sample from a larger library.</p>
+
+      <div class="reel-grid">
+        <div class="reel-embed reveal"><iframe src="https://www-ccv.adobe.io/v1/player/ccv/KihAu2hJqqp/embed?bgcolor=%23191919&amp;lazyLoading=true&amp;api_key=BehancePro2View" allowfullscreen loading="lazy"></iframe></div>
+        <div class="reel-embed reveal"><iframe src="https://www-ccv.adobe.io/v1/player/ccv/MHzdWTCFaVK/embed?bgcolor=%23191919&amp;lazyLoading=true&amp;api_key=BehancePro2View" allowfullscreen loading="lazy"></iframe></div>
+        <div class="reel-embed reveal"><iframe src="https://www-ccv.adobe.io/v1/player/ccv/4HrQAIyWrQx/embed?bgcolor=%23191919&amp;lazyLoading=true&amp;api_key=BehancePro2View" allowfullscreen loading="lazy"></iframe></div>
+        <div class="reel-embed reveal"><iframe src="https://www-ccv.adobe.io/v1/player/ccv/F4_UuMYokPh/embed?bgcolor=%23191919&amp;lazyLoading=true&amp;api_key=BehancePro2View" allowfullscreen loading="lazy"></iframe></div>
+        <div class="reel-embed reveal"><iframe src="https://www-ccv.adobe.io/v1/player/ccv/KtJCudsnv-4/embed?bgcolor=%23191919&amp;lazyLoading=true&amp;api_key=BehancePro2View" allowfullscreen loading="lazy"></iframe></div>
+        <div class="reel-embed reveal"><iframe src="https://www-ccv.adobe.io/v1/player/ccv/BHhpzbbTHhh/embed?bgcolor=%23191919&amp;lazyLoading=true&amp;api_key=BehancePro2View" allowfullscreen loading="lazy"></iframe></div>
+      </div>
+
+      <div class="reel-cta reveal">
+        <p class="reel-cta__text">Showing 6 of 32 pieces from the full video library.</p>
+        <a href="https://jsebacevedo.myportfolio.com/video" target="_blank" class="reel-cta__link">View Full Video Library ↗</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── PHOTOGRAPHY ─── -->
+  <section id="photography" style="background: var(--ink); padding: 100px 0;">
+    <div class="container">
+
+      <div class="section-header">
+        <span>Photography</span>
+        <span>8 Images</span>
+      </div>
+
+      <h2 class="reveal" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,8vw,104px);color:var(--cream);font-weight:400;line-height:0.95;letter-spacing:0.03em;">The Lens</h2>
+
       <div class="photo-grid">
-
-        <div class="photo-grid__item photo-grid__item--tall">
-          <img src="assets/photos/TACO-59.jpg" alt="Taco 59" loading="lazy" />
-        </div>
-
-        <div class="photo-grid__item photo-grid__item--wide">
-          <img src="assets/photos/MAMBOS_EXP-10.jpg" alt="Mambos Experience 10" loading="lazy" />
-        </div>
-
-        <div class="photo-grid__item photo-grid__item--wide">
-          <img src="assets/photos/Skincare-10.jpg" alt="Skincare 10" loading="lazy" />
-        </div>
-
-        <div class="photo-grid__item photo-grid__item--tall">
-          <img src="assets/photos/TACO-76.jpg" alt="Taco 76" loading="lazy" />
-        </div>
-
-        <div class="photo-grid__item photo-grid__item--tall">
-          <img src="assets/photos/Daily-Special-2.jpg" alt="Daily Special 2" loading="lazy" />
-        </div>
-
-        <div class="photo-grid__item photo-grid__item--wide">
-          <img src="assets/photos/MAMBOS_EXP-19.jpg" alt="Mambos Experience 19" loading="lazy" />
-        </div>
-
-        <div class="photo-grid__item photo-grid__item--wide">
-          <img src="assets/photos/Skincare-12.jpg" alt="Skincare 12" loading="lazy" />
-        </div>
-
-        <div class="photo-grid__item photo-grid__item--tall">
-          <img src="assets/photos/Daily-Special-7.jpg" alt="Daily Special 7" loading="lazy" />
-        </div>
-
-      </div><!-- /photo-grid -->
-
-    </div><!-- /inner -->
-  </section><!-- /photography -->
-
-
-  <!-- ════════════════════════════════════════
-       CONTACT / FOOTER
-  ════════════════════════════════════════ -->
-  <section id="contact" class="contact" aria-label="Contact">
-    <div class="inner">
-
-      <span class="label" style="display:block; margin-bottom: 40px;">Contact</span>
-
-      <a href="mailto:jseb.acevedo@gmail.com" class="contact__email">
-        jseb.acevedo@gmail.com
-      </a>
-
-      <a href="tel:+19042388937" class="contact__phone">
-        904-238-8937
-      </a>
+        <div class="photo-grid__item reveal"><img src="assets/photos/TACO-59.jpg" alt="" loading="lazy"></div>
+        <div class="photo-grid__item reveal"><img src="assets/photos/MAMBOS_EXP-10.jpg" alt="" loading="lazy"></div>
+        <div class="photo-grid__item reveal"><img src="assets/photos/Skincare-10.jpg" alt="" loading="lazy"></div>
+        <div class="photo-grid__item reveal"><img src="assets/photos/TACO-76.jpg" alt="" loading="lazy"></div>
+        <div class="photo-grid__item reveal"><img src="assets/photos/Daily-Special-2.jpg" alt="" loading="lazy"></div>
+        <div class="photo-grid__item reveal"><img src="assets/photos/MAMBOS_EXP-19.jpg" alt="" loading="lazy"></div>
+        <div class="photo-grid__item reveal"><img src="assets/photos/Skincare-12.jpg" alt="" loading="lazy"></div>
+        <div class="photo-grid__item reveal"><img src="assets/photos/Daily-Special-7.jpg" alt="" loading="lazy"></div>
+      </div>
 
     </div>
+  </section>
 
-    <div class="footer-strip">
-      <div class="inner">
-        <p>© 2026 Sebastian Acevedo — Colorado</p>
+  <!-- ─── ABOUT ─── -->
+  <section id="about" class="about">
+    <div class="container">
+      <div class="section-header">
+        <span>About</span>
+        <span>Colorado</span>
+      </div>
+
+      <div class="proof reveal">
+        <div class="proof__item"><div class="proof__num">10+</div><p class="proof__txt">Years in broadcast, advertising and public communications</p></div>
+        <div class="proof__item"><div class="proof__num">2</div><p class="proof__txt">Emmy Awards, 2023 · plus CBA Awards of Excellence</p></div>
+        <div class="proof__item"><div class="proof__num">10+</div><p class="proof__txt">City departments guided on brand and accessible design</p></div>
+        <div class="proof__item"><div class="proof__num">EN / ES</div><p class="proof__txt">Bilingual creative, from script to final delivery</p></div>
+      </div>
+
+      <div class="case-cols">
+        <div class="case-cols__left">
+          <span class="label">Background</span>
+          <p class="case-body" id="about-text">I produce, shoot, edit and design. Today I lead visual communications for the City of Lafayette, Colorado: video, photography, brand standards and the bilingual Somos Lafayette identity. Before that I produced Emmy-winning promotional campaigns at NBCUniversal and Univision in Denver, and commercial video for agency clients at Young &amp; Rubicam in Bogotá. I hold a master's degree in cinematography from Deutsche Welle in Germany.</p>
+
+          <div class="skill-cols">
+            <div>
+              <span class="label">Video</span>
+              <p class="meta-text">Premiere Pro, After Effects, Final Cut Pro · camera, lighting, audio capture · story structure, pacing and creative review</p>
+            </div>
+            <div>
+              <span class="label">Design</span>
+              <p class="meta-text">Photoshop, Illustrator, InDesign, Figma · typography, layout, visual identity, templates, accessible design</p>
+            </div>
+            <div>
+              <span class="label">Editorial</span>
+              <p class="meta-text">Story development, AP style, translation review, bilingual English/Spanish communications</p>
+            </div>
+            <div>
+              <span class="label">AI workflows</span>
+              <p class="meta-text">ChatGPT, Claude and Midjourney in concepting, scripting and creative production</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-cols__right">
+          <span class="label">Resumes</span>
+          <ul class="resume-list">
+            <li><a href="resumes/Sebastian_Acevedo_Resume_Video_Editor.pdf" target="_blank" data-resume="video">Video Editing &amp; Creative Review <span>PDF ↓</span></a></li>
+            <li><a href="resumes/Sebastian_Acevedo_Resume_Creative_Producer.pdf" target="_blank" data-resume="creative">Art Direction &amp; Video Production <span>PDF ↓</span></a></li>
+            <li><a href="resumes/Sebastian_Acevedo_Resume_Communications_Designer.pdf" target="_blank" data-resume="design">Communications Design <span>PDF ↓</span></a></li>
+            <li><a href="resumes/Sebastian_Acevedo_Resume_Videographer.pdf" target="_blank" data-resume="field">Videographer &amp; Camera Operator <span>PDF ↓</span></a></li>
+          </ul>
+        </div>
       </div>
     </div>
-  </section><!-- /contact -->
+  </section>
+
+  <!-- ─── CONTACT ─── -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <hr class="contact__rule">
+      <span class="label">Contact</span>
+      <div class="reveal">
+        <a href="mailto:jseb.acevedo@gmail.com" class="contact__email">jseb.acevedo@gmail.com</a>
+        <br>
+        <a href="tel:9042388937" class="contact__phone">904-238-8937</a>
+      </div>
+      <div class="footer-strip">
+        &copy; 2026 Sebastian Acevedo &nbsp;—&nbsp; Colorado &nbsp;—&nbsp; Brand &amp; Communications
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── VIDEO MODAL ─── -->
+  <dialog id="vmodal">
+    <button id="vmodal-close" aria-label="Close">&#x2715;</button>
+    <video id="vmodal-video" controls playsinline></video>
+  </dialog>
+
+  <script>
+    /* ═══════════════════════════════════════════════════════════
+       MORE WORK — add a project by copying one block below.
+       tracks: which job views it belongs to → video, creative, design, field
+       Leave link as '' if there is no link.
+       ═══════════════════════════════════════════════════════════ */
+    const MORE_WORK = [
+      {
+        title: 'Water Restrictions',
+        desc: 'Public information graphic for the City of Lafayette, turning a water-use rule change into a clear, scannable message for residents.',
+        img: 'assets/brand/Water-Restriccions.jpg',
+        tags: 'Public information · Graphic design',
+        tracks: ['design', 'creative'],
+        link: ''
+      },
+      /* ── READY TO FILL IN: delete this comment's opening and closing marks once a block has real details and an image ──
+      {
+        title: 'Engage Lafayette',
+        desc: 'WHAT YOU DID + RESULT, one or two sentences.',
+        img: 'assets/brand/ENGAGE-IMAGE.jpg',
+        tags: 'Volunteer platform · Community engagement',
+        tracks: ['design', 'creative'],
+        link: 'https://engage.lafayetteco.gov/'
+      },
+      {
+        title: 'March',
+        desc: 'WHAT YOU DID + RESULT, one or two sentences.',
+        img: 'assets/brand/MARCH-IMAGE.jpg',
+        tags: 'Brand',
+        tracks: ['creative', 'design'],
+        link: ''
+      },
+      */
+    ];
+
+    /* ═══ JOB VIEWS ═══ */
+    const TRACKS = {
+      all: {
+        label: 'Brand &amp; Communications Leader',
+        tagline: 'Bilingual producer, designer and storyteller with more than 10 years across broadcast, advertising and local government. Two-time Emmy Award winner.',
+        order: ['lafayette', 'broadcast', 'bilingual'],
+        resume: null,
+        fit: {}
+      },
+      video: {
+        label: 'Video Producer &amp; Editor',
+        tagline: 'Hands-on editing judgment for story structure, pacing, composition and production quality. I review creative work against brand standards and give specific, usable feedback.',
+        order: ['broadcast', 'bilingual', 'lafayette'],
+        resume: 'resumes/Sebastian_Acevedo_Resume_Video_Editor.pdf',
+        fit: {
+          broadcast: 'For editing roles: Emmy-winning spots cut for broadcast deadlines, refined for structure, pacing and tone in post.',
+          bilingual: 'For editing roles: Spanish-language spots where the edit has to land culturally, not just technically.',
+          lafayette: 'For editing roles: I shoot, edit and review City video, and manage the shared photo and video library.'
+        }
+      },
+      creative: {
+        label: 'Creative Producer',
+        tagline: 'I take campaigns from concept through filming, editing and delivery, with hands-on photography and motion graphics, and I set visual standards teams can follow.',
+        order: ['lafayette', 'broadcast', 'bilingual'],
+        resume: 'resumes/Sebastian_Acevedo_Resume_Creative_Producer.pdf',
+        fit: {
+          lafayette: 'For creative production roles: concept, launch film and visual system for the bilingual Somos Lafayette brand.',
+          broadcast: 'For creative production roles: campaigns developed with editorial, marketing and production teams from concept to delivery.',
+          bilingual: 'For creative production roles: I led creative development and mentored producers at Univision.'
+        }
+      },
+      design: {
+        label: 'Communications Designer',
+        tagline: 'I turn complex civic and academic information into clear visual stories, working with leaders and subject experts to shape the message before designing.',
+        order: ['lafayette', 'bilingual', 'broadcast'],
+        resume: 'resumes/Sebastian_Acevedo_Resume_Communications_Designer.pdf',
+        fit: {
+          lafayette: 'For design roles: the Brand Hub, templates and standards used by more than 10 City departments. Open the hub below.',
+          bilingual: 'For design roles: messages adapted for Spanish-speaking audiences across TV, digital and social.',
+          broadcast: 'For design roles: story and visual craft at broadcast scale.'
+        }
+      },
+      field: {
+        label: 'Videographer &amp; Camera Operator',
+        tagline: 'Colorado-based videographer with more than 10 years in television, commercial and film, including football and soccer. Camera, lighting, audio and editing, on deadline.',
+        order: ['bilingual', 'broadcast', 'lafayette'],
+        resume: 'resumes/Sebastian_Acevedo_Resume_Videographer.pdf',
+        fit: {
+          bilingual: 'For videography roles: soccer spots including La Soledad.',
+          broadcast: 'For videography roles: soccer and station promos produced under broadcast deadlines.',
+          lafayette: 'For videography roles: I shoot City events and campaigns, including outside business hours, setting up cameras, lighting and audio myself.'
+        }
+      }
+    };
+
+    function renderMoreWork(trackKey) {
+      const grid = document.getElementById('more-grid');
+      const items = MORE_WORK.slice().sort((a, b) => {
+        if (trackKey === 'all') return 0;
+        return (b.tracks.includes(trackKey) ? 1 : 0) - (a.tracks.includes(trackKey) ? 1 : 0);
+      });
+      grid.innerHTML = items.map(p => `
+        <article class="tile${trackKey !== 'all' && !p.tracks.includes(trackKey) ? ' is-dim' : ''}">
+          <div class="tile__media"><img src="${p.img}" alt="${p.title}" loading="lazy"></div>
+          <div class="tile__body">
+            <h3 class="tile__title">${p.title}</h3>
+            <p class="tile__desc">${p.desc}</p>
+            <p class="tile__tags">${p.tags}</p>
+            ${p.link ? `<a class="tile__link" href="${p.link}" target="_blank" rel="noopener">View project ↗</a>` : ''}
+          </div>
+        </article>`).join('');
+      document.getElementById('more-count').textContent = String(MORE_WORK.length).padStart(2, '0') + ' Projects';
+      // Keep the section hidden until there are at least two projects to show
+      const show = MORE_WORK.length >= 2;
+      document.getElementById('more').hidden = !show;
+      const navMore = document.querySelector('#nav-links a[href="#more"]');
+      if (navMore) navMore.hidden = !show;
+    }
+
+    function applyTrack(key, updateUrl) {
+      if (!TRACKS[key]) key = 'all';
+      const t = TRACKS[key];
+      document.getElementById('hero-label').innerHTML = t.label;
+      document.getElementById('hero-tagline').textContent = t.tagline;
+      document.querySelectorAll('.track-btn').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.track === key)));
+
+      // Reorder, renumber and re-stripe the case studies
+      t.order.forEach((id, i) => {
+        const sec = document.getElementById(id);
+        if (!sec) return;
+        sec.style.order = i + 1;
+        sec.classList.toggle('case--soft', i % 2 === 0);
+        sec.classList.toggle('case--ink', i % 2 === 1);
+        const num = sec.querySelector('.case__number');
+        if (num) num.innerHTML = num.innerHTML.replace(/^\d{2}/, String(i + 1).padStart(2, '0'));
+        const fit = sec.querySelector('.case__fit');
+        if (fit) { fit.textContent = t.fit[id] || ''; fit.classList.toggle('is-on', !!t.fit[id]); }
+      });
+
+      // Resume button follows the view
+      const rb = document.getElementById('resume-btn');
+      if (t.resume) { rb.href = t.resume; rb.target = '_blank'; rb.textContent = 'Download resume'; }
+      else { rb.href = '#about'; rb.removeAttribute('target'); rb.textContent = 'Resumes'; }
+      document.querySelectorAll('[data-resume]').forEach(a => {
+        a.style.color = (a.dataset.resume === key) ? 'var(--gold)' : '';
+      });
+
+      renderMoreWork(key);
+
+      if (updateUrl) {
+        const url = new URL(window.location.href);
+        if (key === 'all') url.searchParams.delete('track'); else url.searchParams.set('track', key);
+        history.replaceState(null, '', url);
+      }
+    }
+
+    document.querySelectorAll('.track-btn').forEach(b =>
+      b.addEventListener('click', () => applyTrack(b.dataset.track, true)));
+    applyTrack(new URLSearchParams(window.location.search).get('track') || 'all', false);
+
+    // Video modal
+    document.querySelectorAll('.vt').forEach(vt => {
+      vt.addEventListener('click', () => {
+        const v = document.getElementById('vmodal-video');
+        v.src = vt.dataset.src;
+        v.poster = vt.dataset.poster;
+        document.getElementById('vmodal').showModal();
+        v.play();
+      });
+    });
+    document.getElementById('vmodal-close').addEventListener('click', closeModal);
+    document.getElementById('vmodal').addEventListener('click', e => {
+      if (e.target === e.currentTarget) closeModal();
+    });
+    function closeModal() {
+      const v = document.getElementById('vmodal-video');
+      v.pause();
+      v.src = '';
+      document.getElementById('vmodal').close();
+    }
+
+    // Nav scroll effect
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('nav--scrolled', window.scrollY > 40);
+    });
+
+    // Mobile nav toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('is-open');
+      navLinks.classList.toggle('is-open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('is-open');
+        navLinks.classList.remove('is-open');
+      });
+    });
+
+    // Scroll spy: highlight active section in nav based on scroll position
+    const spySections = ['work', 'more', 'reel', 'photography', 'about', 'contact']
+      .map(id => document.getElementById(id)).filter(el => el && !el.hidden);
+    const navAnchors = Array.from(navLinks.querySelectorAll('a'));
+    function updateActiveNav() {
+      const threshold = 140; // px from top of viewport, just below fixed nav
+      const atBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 2);
+      let current = atBottom ? spySections[spySections.length - 1] : spySections[0];
+      if (!atBottom) {
+        for (const sec of spySections) {
+          if (sec.getBoundingClientRect().top - threshold <= 0) {
+            current = sec;
+          } else {
+            break;
+          }
+        }
+      }
+      const id = current.getAttribute('id');
+      navAnchors.forEach(a => {
+        a.classList.toggle('nav--active', a.getAttribute('href') === '#' + id);
+      });
+    }
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    updateActiveNav();
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
 
 </body>
 </html>
